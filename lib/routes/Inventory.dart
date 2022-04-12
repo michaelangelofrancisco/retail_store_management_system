@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
-import 'package:retail_store_management_system/routes/Tables/InventoryList.dart';
-import 'package:retail_store_management_system/routes/Tables/RecentOrders.dart';
+import 'package:retail_store_management_system/Tables/InventoryList.dart';
 
 class Inventory extends StatefulWidget {
   const Inventory({Key? key}) : super(key: key);
@@ -391,11 +390,12 @@ class _Inventory extends State<Inventory> {
               ),
             ),
             Expanded(
-                child: Container(
-              width: (MediaQuery.of(context).size.width) / 1.5,
-              height: (MediaQuery.of(context).size.height) / 2,
-              child: InventoryList(),
-            )),
+              child: SizedBox(
+                width: (MediaQuery.of(context).size.width) / 1.5,
+                height: (MediaQuery.of(context).size.height) / 2,
+                child: InventoryList(),
+              ),
+            ),
           ],
         ),
       ],

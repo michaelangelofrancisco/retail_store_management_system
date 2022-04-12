@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:hexcolor/hexcolor.dart';
+import 'package:retail_store_management_system/models/OrderModel.dart';
 
 class RecentOrders extends StatefulWidget {
+  final List<OrderModel>? newPurchaes;
+  const RecentOrders({Key? key, required this.newPurchaes}) : super(key: key);
+
   @override
   _RecentOrders createState() => _RecentOrders();
 }
@@ -36,7 +39,7 @@ class _RecentOrders extends State<RecentOrders> {
                 DataColumn(label: Text('Status')),
                 DataColumn(label: Text('Staff')),
               ],
-              source: _DataSource(context),
+              source: _DataSource(context, widget.newPurchaes!.toList()),
             ),
           ),
         ),
@@ -61,16 +64,19 @@ class _Row {
   final String valueSize;
   final String valueQuantity;
   final String valueDate;
-  final String valueStatus;
-  final String valueStaff;
+  final String? valueStatus;
+  final String? valueStaff;
 
   bool selected = false;
 }
 
 class _DataSource extends DataTableSource {
-  _DataSource(this.context) {
-    _paymentsList(context);
+  _DataSource(this.context, newPurchaes) {
+    purchases = newPurchaes;
+    _paymentsList(purchases);
   }
+
+  List<OrderModel> purchases = [];
 
   final BuildContext context;
 
@@ -79,8 +85,8 @@ class _DataSource extends DataTableSource {
   @override
   DataRow? getRow(int index) {
     assert(index >= 0);
-    if (index >= _paymentsList(context).length) return null;
-    final row = _paymentsList(context)[index];
+    if (index >= _paymentsList(purchases).length) return null;
+    final row = _paymentsList(purchases)[index];
     return DataRow.byIndex(
       index: index,
       selected: row.selected,
@@ -99,14 +105,14 @@ class _DataSource extends DataTableSource {
         DataCell(Text(row.valueSize)),
         DataCell(Text(row.valueQuantity)),
         DataCell(Text(row.valueDate)),
-        DataCell(Text(row.valueStatus)),
-        DataCell(Text(row.valueStaff)),
+        DataCell(Text(row.valueStatus.toString())),
+        DataCell(Text(row.valueStaff.toString())),
       ],
     );
   }
 
   @override
-  int get rowCount => _paymentsList(context).length;
+  int get rowCount => _paymentsList(purchases).length;
 
   @override
   bool get isRowCountApproximate => false;
@@ -115,17 +121,17 @@ class _DataSource extends DataTableSource {
   int get selectedRowCount => _selectedCount;
 }
 
-List<_Row> _paymentsList(BuildContext context) {
+List<_Row> _paymentsList(List<OrderModel> purchases) {
   try {
     return List.generate(
-      4,
+      purchases.length,
       (index) {
         return _Row(
-          '',
-          '',
-          '',
-          '',
-          '',
+          purchases[index].getProductName.toString(),
+          purchases[index].getProductPrice.toString(),
+          purchases[index].getProductSize.toString(),
+          purchases[index].productQuantity.toString(),
+          purchases[index].getDateToday.toString(),
           '',
           '',
         );

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
-import 'package:retail_store_management_system/routes/Tables/RecentOrders.dart';
+import 'package:retail_store_management_system/Operations/OrderOperation.dart';
+import 'package:retail_store_management_system/Tables/RecentOrders.dart';
+import 'package:retail_store_management_system/models/OrderModel.dart';
 
 class Dashboard extends StatefulWidget {
   const Dashboard({Key? key}) : super(key: key);
@@ -10,13 +12,28 @@ class Dashboard extends StatefulWidget {
 }
 
 class _Dashboard extends State<Dashboard> {
+  late Future<List<OrderModel>> newPurchase;
+  var purchase = OrderOperation();
   final productName = TextEditingController();
   final price = TextEditingController();
   final size = TextEditingController();
-  TextEditingController dateinput = TextEditingController();
+  final qty = TextEditingController();
+  final dateinput = TextEditingController();
+
+  final totalprice = TextEditingController();
 
   @override
   void initState() {
+    // newPurchase = purchase.getPurchaseList(
+    //   OrderModel.newPurchase(
+    //     'WOw',
+    //     800.00,
+    //     '80ML',
+    //     5,
+    //     '2022-04-12',
+    //   ),
+    // );
+    newPurchase = purchase.getPurchaseList(OrderModel.empty());
     super.initState();
   }
 
@@ -253,6 +270,7 @@ class _Dashboard extends State<Dashboard> {
                   Padding(
                     padding: const EdgeInsets.all(6),
                     child: TextField(
+                      controller: size,
                       decoration: InputDecoration(
                         hintText: 'Size',
                         filled: true,
@@ -275,6 +293,7 @@ class _Dashboard extends State<Dashboard> {
                   Padding(
                     padding: const EdgeInsets.all(6),
                     child: TextField(
+                      controller: qty,
                       decoration: InputDecoration(
                         hintText: 'Quantity',
                         filled: true,
@@ -341,7 +360,7 @@ class _Dashboard extends State<Dashboard> {
                         );
                         if (pickedDate != null) {
                           setState(() {
-                            dateinput.text = pickedDate as String;
+                            dateinput.text = pickedDate.toString();
                           });
                         } else {
                           print("Date is not selected");
@@ -377,10 +396,22 @@ class _Dashboard extends State<Dashboard> {
                               ),
                             ),
                             child: const Text('ADD'),
-                            onPressed: () {
-                              print(
-                                "Name: ${productName.text} and price ${price.text}",
+                            onPressed: () async {
+                              //add the purchase to the list and pass it
+                              //to the Future or promise data for the table
+                              newPurchase = purchase.getPurchaseList(
+                                OrderModel.newPurchase(
+                                  productName.text,
+                                  double.parse(price.text),
+                                  size.text,
+                                  int.parse(qty.text),
+                                  dateinput.text,
+                                ),
                               );
+
+                              setState(() {
+                                newPurchase = newPurchase;
+                              });
                             },
                           ),
                         ],
@@ -393,10 +424,34 @@ class _Dashboard extends State<Dashboard> {
             Expanded(
               child: Column(
                 children: [
-                  Container(
-                    width: (MediaQuery.of(context).size.width) / 1.5,
-                    height: (MediaQuery.of(context).size.height) / 2,
-                    child: RecentOrders(),
+                  FutureBuilder<List<OrderModel>>(
+                    future: newPurchase,
+                    builder: (context, snapshot) {
+                      if (!snapshot.hasData) {
+                        return const CircularProgressIndicator();
+                      }
+                      if (snapshot.hasData) {
+                        if (snapshot.data!.isEmpty) {
+                          return SizedBox(
+                            width: (MediaQuery.of(context).size.width) / 1.5,
+                            height: (MediaQuery.of(context).size.height) / 2,
+                            child: const Center(
+                              child: Text("No Data"),
+                            ),
+                          );
+                        } else {
+                          return SizedBox(
+                            width: (MediaQuery.of(context).size.width) / 1.5,
+                            height: (MediaQuery.of(context).size.height) / 2,
+                            child: RecentOrders(
+                              newPurchaes: snapshot.data,
+                            ),
+                          );
+                        }
+                      } else {
+                        return const Text("No Data");
+                      }
+                    },
                   ),
                   Stack(
                     children: [
@@ -443,9 +498,9 @@ class _Dashboard extends State<Dashboard> {
                         child: Padding(
                           padding: const EdgeInsets.only(top: 10, left: 300),
                           child: TextField(
-                            controller: price,
+                            controller: totalprice,
                             decoration: InputDecoration(
-                              hintText: 'Price',
+                              hintText: 'Total price',
                               filled: true,
                               fillColor: Colors.blueGrey[50],
                               labelStyle: TextStyle(fontSize: 12),
