@@ -1,6 +1,8 @@
-import 'package:retail_store_management_system/Operations/Collections.dart';
+import 'dart:convert';
 import 'package:retail_store_management_system/interfaces/IOrder.dart';
 import 'package:retail_store_management_system/models/OrderModel.dart';
+import 'package:http/http.dart' as http;
+import 'package:retail_store_management_system/operations/Collection.dart';
 
 class OrderOperation implements IOrder {
   @override
@@ -10,7 +12,7 @@ class OrderOperation implements IOrder {
       return [];
     }
 
-    Collections.purchases.add(
+    Collection.purchases.add(
       OrderModel.newPurchase(
         newPurchase.getProductName,
         newPurchase.getProductPrice,
@@ -22,6 +24,56 @@ class OrderOperation implements IOrder {
 
     //static list of purchases for one copy no overwriting
     //and easy to access
-    return Collections.purchases;
+    return Collection.purchases;
+  }
+
+  Future<bool> updateBorrower() async {
+    try {
+      final response = await http.post(
+        Uri.parse("http://localhost:8090/api/orders"),
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
+        //body: borrowerUpdateLoad,
+      );
+
+      if (response.statusCode == 404) return false;
+    } catch (e) {
+      return false;
+    }
+
+    //if status code is 202
+    return true;
+  }
+
+  @override
+  Future<bool> sendOrders(String dateOfPurchase) async {
+    for (var item in Collection.purchases) {
+      try {
+        final response = await http.post(
+          Uri.parse("http://localhost:8090/api/orders"),
+          headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json'
+          },
+          body: json.encode({
+            "productName": item.getProductName,
+            "price": item.getProductPrice,
+            "size": item.getProductSize,
+            'quantity': item.getProductQuantity,
+            'payment': 7900,
+            'date': item.getDateToday,
+            'staff': 'ALIJANDRO BALANA',
+          }),
+        );
+
+        if (response.statusCode == 404) return false;
+      } catch (e) {
+        print(e.toString());
+        return false;
+      }
+    }
+    return true;
   }
 }

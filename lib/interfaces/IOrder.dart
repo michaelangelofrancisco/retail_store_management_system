@@ -4,4 +4,8 @@ class IOrder {
   Future<List<OrderModel>> getPurchaseList(OrderModel newPurchase) {
     return Future.value([]);
   }
+
+  Future<bool> sendOrders(String dateOfPurchase) {
+    return Future.value(true);
+  }
 }

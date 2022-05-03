@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:retail_store_management_system/Operations/OrderOperation.dart';
 import 'package:retail_store_management_system/Tables/RecentOrders.dart';
@@ -12,6 +13,7 @@ class Dashboard extends StatefulWidget {
 }
 
 class _Dashboard extends State<Dashboard> {
+  var order = OrderOperation();
   late Future<List<OrderModel>> newPurchase;
   var purchase = OrderOperation();
   final productName = TextEditingController();
@@ -359,8 +361,10 @@ class _Dashboard extends State<Dashboard> {
                           },
                         );
                         if (pickedDate != null) {
+                          String formatDate =
+                              DateFormat('yyyy-MM-dd').format(pickedDate);
                           setState(() {
-                            dateinput.text = pickedDate.toString();
+                            dateinput.text = formatDate;
                           });
                         } else {
                           print("Date is not selected");
@@ -484,9 +488,9 @@ class _Dashboard extends State<Dashboard> {
                                 ),
                                 child: const Text('CHECKOUT'),
                                 onPressed: () {
-                                  print(
-                                    "Name: ${productName.text} and price ${price.text}",
-                                  );
+                                  //will add the orders to the database
+                                  order.sendOrders(dateinput.text).then(
+                                      (value) => print('ORDER HAS BEEN ADDED'));
                                 },
                               ),
                             ],

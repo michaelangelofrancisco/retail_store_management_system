@@ -3,8 +3,6 @@ import 'package:hexcolor/hexcolor.dart';
 import 'package:retail_store_management_system/Tables/OrderList.dart';
 
 class Order extends StatefulWidget {
-  const Order({Key? key}) : super(key: key);
-
   @override
   _Order createState() => _Order();
 }

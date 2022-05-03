@@ -390,12 +390,11 @@ class _Inventory extends State<Inventory> {
               ),
             ),
             Expanded(
-              child: SizedBox(
-                width: (MediaQuery.of(context).size.width) / 1.5,
-                height: (MediaQuery.of(context).size.height) / 2,
-                child: InventoryList(),
-              ),
-            ),
+                child: Container(
+              width: (MediaQuery.of(context).size.width) / 1.5,
+              height: (MediaQuery.of(context).size.height) / 2,
+              child: InventoryList(),
+            )),
           ],
         ),
       ],
