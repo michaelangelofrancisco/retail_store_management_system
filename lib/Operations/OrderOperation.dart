@@ -27,26 +27,6 @@ class OrderOperation implements IOrder {
     return Collection.purchases;
   }
 
-  Future<bool> updateBorrower() async {
-    try {
-      final response = await http.post(
-        Uri.parse("http://localhost:8090/api/orders"),
-        headers: {
-          'Content-Type': 'application/json',
-          'Accept': 'application/json'
-        },
-        //body: borrowerUpdateLoad,
-      );
-
-      if (response.statusCode == 404) return false;
-    } catch (e) {
-      return false;
-    }
-
-    //if status code is 202
-    return true;
-  }
-
   @override
   Future<bool> sendOrders(String dateOfPurchase) async {
     for (var item in Collection.purchases) {

@@ -1,6 +1,9 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'package:retail_store_management_system/Operations/Collection.dart';
 import 'package:retail_store_management_system/Operations/OrderOperation.dart';
 import 'package:retail_store_management_system/Tables/RecentOrders.dart';
 import 'package:retail_store_management_system/models/OrderModel.dart';
@@ -21,6 +24,8 @@ class _Dashboard extends State<Dashboard> {
   final size = TextEditingController();
   final qty = TextEditingController();
   final dateinput = TextEditingController();
+
+  String orderNumber = '';
 
   final totalprice = TextEditingController();
 
@@ -213,6 +218,20 @@ class _Dashboard extends State<Dashboard> {
                     padding: const EdgeInsets.only(top: 20),
                     child: Text(
                       'New Purchase',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        color: HexColor("#155293"),
+                        fontFamily: 'Cairo_Bold',
+                        fontSize: 30,
+                        overflow: TextOverflow.fade,
+                      ),
+                      maxLines: 2,
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(top: 20),
+                    child: Text(
+                      'Order Number: $orderNumber',
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         color: HexColor("#155293"),

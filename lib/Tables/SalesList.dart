@@ -28,9 +28,9 @@ class _SalesList extends State<SalesList> {
               sortColumnIndex: 1,
               rowsPerPage: 9,
               columns: [
-                DataColumn(label: Text('Sale ID')),
-                DataColumn(label: Text('Sale Date')),
-                DataColumn(label: Text('Sales Person')),
+                DataColumn(label: Text('Order ID')),
+                DataColumn(label: Text('Date')),
+                DataColumn(label: Text('Staff')),
                 DataColumn(label: Text('Info')),
               ],
               source: _DataSource(context),
@@ -44,16 +44,16 @@ class _SalesList extends State<SalesList> {
 
 class _Row {
   _Row(
-    this.valueProductName,
-    this.valuePrice,
-    this.valueSize,
-    this.valueQuantity,
+    this.valueOrderID,
+    this.valueDate,
+    this.valueStaff,
+    this.valueInfo,
   );
 
-  final String valueProductName;
-  final String valuePrice;
-  final String valueSize;
-  final Widget valueQuantity;
+  final String valueOrderID;
+  final String valueDate;
+  final String valueStaff;
+  final Widget valueInfo;
 
   bool selected = false;
 }
@@ -85,10 +85,10 @@ class _DataSource extends DataTableSource {
         }
       },
       cells: [
-        DataCell(Text(row.valueProductName)),
-        DataCell(Text(row.valuePrice)),
-        DataCell(Text(row.valueSize)),
-        DataCell((row.valueQuantity)),
+        DataCell(Text(row.valueOrderID)),
+        DataCell(Text(row.valueDate)),
+        DataCell(Text(row.valueStaff)),
+        DataCell((row.valueInfo)),
       ],
     );
   }

@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'package:intl/intl.dart';
 import 'package:retail_store_management_system/Tables/InventoryList.dart';
+import 'package:retail_store_management_system/models/InventoryModel.dart';
+
+import '../operations/InventoryOperation.dart';
 
 class Inventory extends StatefulWidget {
   const Inventory({Key? key}) : super(key: key);
@@ -12,10 +16,19 @@ class Inventory extends StatefulWidget {
 class _Inventory extends State<Inventory> {
   final productName = TextEditingController();
   final price = TextEditingController();
-  TextEditingController dateinput = TextEditingController();
+  final size = TextEditingController();
+  final qty = TextEditingController();
+  var dateinput = TextEditingController();
+  late Future<List<InventoryModel>> inventoryShow;
+  var inventory = InventoryOperation();
+  var a = InventoryOperation();
 
   @override
   void initState() {
+    setState(() {
+      inventoryShow = a.fetchInventory();
+    });
+
     super.initState();
   }
 
@@ -252,6 +265,7 @@ class _Inventory extends State<Inventory> {
                   Padding(
                     padding: const EdgeInsets.all(6),
                     child: TextField(
+                      controller: size,
                       decoration: InputDecoration(
                         hintText: 'Size',
                         filled: true,
@@ -274,6 +288,7 @@ class _Inventory extends State<Inventory> {
                   Padding(
                     padding: const EdgeInsets.all(6),
                     child: TextField(
+                      controller: qty,
                       decoration: InputDecoration(
                         hintText: 'Quantity',
                         filled: true,
@@ -339,8 +354,10 @@ class _Inventory extends State<Inventory> {
                           },
                         );
                         if (pickedDate != null) {
+                          String formatDate =
+                              DateFormat('yyyy-MM-dd').format(pickedDate);
                           setState(() {
-                            dateinput.text = pickedDate as String;
+                            dateinput.text = formatDate;
                           });
                         } else {
                           print("Date is not selected");
@@ -377,9 +394,15 @@ class _Inventory extends State<Inventory> {
                             ),
                             child: const Text('ADD'),
                             onPressed: () {
-                              print(
-                                "Name: ${productName.text} and price ${price.text}",
-                              );
+                              inventory
+                                  .sendInventory(
+                                      productName.text,
+                                      double.parse(price.text),
+                                      size.text,
+                                      int.parse(qty.text),
+                                      dateinput.text)
+                                  .then((value) =>
+                                      print('New product has been added'));
                             },
                           ),
                         ],
@@ -389,12 +412,24 @@ class _Inventory extends State<Inventory> {
                 ],
               ),
             ),
-            Expanded(
-                child: Container(
-              width: (MediaQuery.of(context).size.width) / 1.5,
-              height: (MediaQuery.of(context).size.height) / 2,
-              child: InventoryList(),
-            )),
+            FutureBuilder<List<InventoryModel>>(
+              future: inventoryShow,
+              builder: (context, snapshot) {
+                if (!snapshot.hasData) {
+                  return const CircularProgressIndicator();
+                }
+                if (snapshot.hasData) {
+                  return SizedBox(
+                    width: (MediaQuery.of(context).size.width) / 1.5,
+                    height: (MediaQuery.of(context).size.height) / 2,
+                    child: InventoryList(
+                      inventoryList: snapshot.data,
+                    ),
+                  );
+                }
+                return const Text('No data');
+              },
+            )
           ],
         ),
       ],
