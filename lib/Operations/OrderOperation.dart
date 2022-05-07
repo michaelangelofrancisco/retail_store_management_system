@@ -29,7 +29,9 @@ class OrderOperation implements IOrder {
 
   @override
   Future<bool> sendOrders(String dateOfPurchase, int orderNumber) async {
+    int temp = orderNumber;
     for (var item in Collection.purchases) {
+      print(temp);
       try {
         final response = await http.post(
           Uri.parse("http://localhost:8090/api/orders"),
@@ -38,6 +40,7 @@ class OrderOperation implements IOrder {
             'Accept': 'application/json'
           },
           body: json.encode({
+            "orderNumber": temp,
             "productName": item.getProductName,
             "price": item.getProductPrice,
             "size": item.getProductSize,

@@ -33,7 +33,7 @@ class _Dashboard extends State<Dashboard> {
       });
       orderNumber = value;
     });
-    //step 3
+    //step 2
     newPurchase = order.getPurchaseList(OrderModel.empty());
     super.initState();
   }
