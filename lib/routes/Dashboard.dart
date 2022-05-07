@@ -1,9 +1,6 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:hexcolor/hexcolor.dart';
-import 'package:retail_store_management_system/Operations/Collection.dart';
 import 'package:retail_store_management_system/Operations/OrderOperation.dart';
 import 'package:retail_store_management_system/Tables/RecentOrders.dart';
 import 'package:retail_store_management_system/models/OrderModel.dart';
@@ -18,29 +15,26 @@ class Dashboard extends StatefulWidget {
 class _Dashboard extends State<Dashboard> {
   var order = OrderOperation();
   late Future<List<OrderModel>> newPurchase;
-  var purchase = OrderOperation();
   final productName = TextEditingController();
   final price = TextEditingController();
   final size = TextEditingController();
   final qty = TextEditingController();
   final dateinput = TextEditingController();
 
-  String orderNumber = '';
-
+  int orderNumber = 0;
   final totalprice = TextEditingController();
 
   @override
   void initState() {
-    // newPurchase = purchase.getPurchaseList(
-    //   OrderModel.newPurchase(
-    //     'WOw',
-    //     800.00,
-    //     '80ML',
-    //     5,
-    //     '2022-04-12',
-    //   ),
-    // );
-    newPurchase = purchase.getPurchaseList(OrderModel.empty());
+    //step 1
+    order.getOrderNumber().then((value) {
+      setState(() {
+        value++;
+      });
+      orderNumber = value;
+    });
+    //step 3
+    newPurchase = order.getPurchaseList(OrderModel.empty());
     super.initState();
   }
 
@@ -422,7 +416,7 @@ class _Dashboard extends State<Dashboard> {
                             onPressed: () async {
                               //add the purchase to the list and pass it
                               //to the Future or promise data for the table
-                              newPurchase = purchase.getPurchaseList(
+                              newPurchase = order.getPurchaseList(
                                 OrderModel.newPurchase(
                                   productName.text,
                                   double.parse(price.text),
@@ -508,8 +502,9 @@ class _Dashboard extends State<Dashboard> {
                                 child: const Text('CHECKOUT'),
                                 onPressed: () {
                                   //will add the orders to the database
-                                  order.sendOrders(dateinput.text).then(
-                                      (value) => print('ORDER HAS BEEN ADDED'));
+                                  order
+                                      .sendOrders(dateinput.text, orderNumber)
+                                      .then((value) => print("Success"));
                                 },
                               ),
                             ],

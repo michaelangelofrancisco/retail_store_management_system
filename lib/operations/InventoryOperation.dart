@@ -1,7 +1,6 @@
 import 'dart:convert';
+import 'dart:io';
 import 'package:http/http.dart' as http;
-import 'package:retail_store_management_system/Operations/Collection.dart';
-
 import '../models/InventoryModel.dart';
 import 'Collector.dart';
 
@@ -40,6 +39,7 @@ class InventoryOperation {
     Collector.getInventory = parsed
         .map<InventoryModel>((json) => InventoryModel.inventoryFromJson(json))
         .toList();
+
     // Use the compute function to run parseAdmin in a separate isolate.
     return Collector.getInventory;
   }

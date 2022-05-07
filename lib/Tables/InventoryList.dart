@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:retail_store_management_system/models/InventoryModel.dart';
+import 'package:retail_store_management_system/operations/Collector.dart';
 
 class InventoryList extends StatefulWidget {
-  final List<InventoryModel>? inventoryList;
-  const InventoryList({required this.inventoryList});
+  const InventoryList();
 
   @override
   _InventoryList createState() => _InventoryList();
@@ -15,6 +15,7 @@ class _InventoryList extends State<InventoryList> {
     super.initState();
   }
 
+  @override
   Widget build(BuildContext context) {
     return Column(
       children: <Widget>[
@@ -35,7 +36,7 @@ class _InventoryList extends State<InventoryList> {
                 DataColumn(label: Text('Quantity')),
                 DataColumn(label: Text('Date')),
               ],
-              source: _DataSource(context, widget.inventoryList!.toList()),
+              source: _DataSource(context),
             ),
           ),
         ),
@@ -64,12 +65,12 @@ class _Row {
 }
 
 class _DataSource extends DataTableSource {
-  _DataSource(this.context, newPurchaes) {
-    inventory = newPurchaes;
-    _paymentsList(inventory);
+  _DataSource(this.context) {
+    rowPurchases = _paymentsList();
   }
 
-  List<InventoryModel> inventory = [];
+  List<InventoryModel> newPurchases = [];
+  List<_Row> rowPurchases = [];
 
   final BuildContext context;
 
@@ -78,8 +79,8 @@ class _DataSource extends DataTableSource {
   @override
   DataRow? getRow(int index) {
     assert(index >= 0);
-    if (index >= _paymentsList(inventory).length) return null;
-    final row = _paymentsList(inventory)[index];
+    if (index >= _paymentsList().length) return null;
+    final row = _paymentsList()[index];
     return DataRow.byIndex(
       index: index,
       selected: row.selected,
@@ -104,7 +105,7 @@ class _DataSource extends DataTableSource {
   }
 
   @override
-  int get rowCount => _paymentsList(inventory).length;
+  int get rowCount => _paymentsList().length;
 
   @override
   bool get isRowCountApproximate => false;
@@ -113,18 +114,18 @@ class _DataSource extends DataTableSource {
   int get selectedRowCount => _selectedCount;
 }
 
-List<_Row> _paymentsList(List<InventoryModel> inventory) {
+List<_Row> _paymentsList() {
   try {
     return List.generate(
-      4,
+      Collector.getInventory.length,
       (index) {
         return _Row(
-          inventory[index].getProductID.toString(),
-          inventory[index].getProductInvName().toString(),
-          inventory[index].getProductInvPrice.toString(),
-          inventory[index].getProductInvSize.toString(),
-          inventory[index].getProductInvQty.toString(),
-          inventory[index].getProductInvDate.toString(),
+          Collector.getInventory[index].getProductId.toString(),
+          Collector.getInventory[index].getProductInvName.toString(),
+          Collector.getInventory[index].getProductInvPrice.toString(),
+          Collector.getInventory[index].getProductInvSize.toString(),
+          Collector.getInventory[index].getProductInvQty.toString(),
+          Collector.getInventory[index].getProductInvDate.toString(),
         );
       },
     );

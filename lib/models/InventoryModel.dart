@@ -1,13 +1,14 @@
 class InventoryModel {
-  int? productID;
+  int? productId;
   String? productInvName;
   double? productInvPrice;
   String? productInvSize;
   int? productInvQty;
   String? productInvDate;
-  int? get getProductID => this.productID;
 
-  set setProductID(int? productID) => this.productID = productID;
+  get getProductId => this.productId;
+
+  set setProductID(productId) => this.productId = productId;
 
   get getProductInvName => this.productInvName;
 
@@ -39,7 +40,7 @@ class InventoryModel {
       String productInvSize,
       int productInvQty,
       String productInvDate) {
-    this.productID = productID;
+    this.productId = productID;
     this.productInvName = productInvName;
     this.productInvPrice = productInvPrice;
     this.productInvSize = productInvSize;
@@ -48,7 +49,7 @@ class InventoryModel {
   }
 
   InventoryModel.fullJson({
-    this.productID,
+    this.productId,
     this.productInvName,
     this.productInvPrice,
     this.productInvSize,
@@ -58,9 +59,9 @@ class InventoryModel {
 
   factory InventoryModel.inventoryFromJson(Map<String, dynamic> json) {
     return InventoryModel.fullJson(
-      productID: json['productID'] as int,
+      productId: json['productId'] as int,
       productInvName: json['productInvName'] as String,
-      productInvPrice: json['productInvPric Ste'] as double,
+      productInvPrice: json['productInvPrice'] as double,
       productInvSize: json['productInvSize'] as String,
       productInvQty: json['productInvQty'] as int,
       productInvDate: json['productInvDate'] as String,

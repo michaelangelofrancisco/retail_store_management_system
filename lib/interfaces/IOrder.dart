@@ -5,7 +5,7 @@ class IOrder {
     return Future.value([]);
   }
 
-  Future<bool> sendOrders(String dateOfPurchase) {
+  Future<bool> sendOrders(String dateOfPurchase, int orderNumber) {
     return Future.value(true);
   }
 }

@@ -28,7 +28,7 @@ class OrderOperation implements IOrder {
   }
 
   @override
-  Future<bool> sendOrders(String dateOfPurchase) async {
+  Future<bool> sendOrders(String dateOfPurchase, int orderNumber) async {
     for (var item in Collection.purchases) {
       try {
         final response = await http.post(
@@ -55,5 +55,16 @@ class OrderOperation implements IOrder {
       }
     }
     return true;
+  }
+
+  Future<int> getOrderNumber() async {
+    Map<String, dynamic> orderNumber;
+    final response = await http
+        .get(Uri.parse("http://localhost:8090/api/orderNumberBiggest"));
+
+    orderNumber = jsonDecode(response.body);
+
+    // Use the compute function to run parseAdmin in a separate isolate.
+    return orderNumber["max_order_number"];
   }
 }

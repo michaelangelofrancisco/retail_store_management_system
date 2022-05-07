@@ -3,8 +3,7 @@ import 'package:hexcolor/hexcolor.dart';
 import 'package:intl/intl.dart';
 import 'package:retail_store_management_system/Tables/InventoryList.dart';
 import 'package:retail_store_management_system/models/InventoryModel.dart';
-
-import '../operations/InventoryOperation.dart';
+import 'package:retail_store_management_system/operations/InventoryOperation.dart';
 
 class Inventory extends StatefulWidget {
   const Inventory({Key? key}) : super(key: key);
@@ -21,14 +20,10 @@ class _Inventory extends State<Inventory> {
   var dateinput = TextEditingController();
   late Future<List<InventoryModel>> inventoryShow;
   var inventory = InventoryOperation();
-  var a = InventoryOperation();
 
   @override
   void initState() {
-    setState(() {
-      inventoryShow = a.fetchInventory();
-    });
-
+    inventoryShow = inventory.fetchInventory();
     super.initState();
   }
 
@@ -418,13 +413,14 @@ class _Inventory extends State<Inventory> {
                 if (!snapshot.hasData) {
                   return const CircularProgressIndicator();
                 }
+                if (snapshot.data!.isEmpty) {
+                  return const Text('No data');
+                }
                 if (snapshot.hasData) {
                   return SizedBox(
                     width: (MediaQuery.of(context).size.width) / 1.5,
                     height: (MediaQuery.of(context).size.height) / 2,
-                    child: InventoryList(
-                      inventoryList: snapshot.data,
-                    ),
+                    child: const InventoryList(),
                   );
                 }
                 return const Text('No data');
