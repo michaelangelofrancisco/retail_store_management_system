@@ -5,6 +5,7 @@ import 'package:retail_store_management_system/Operations/OrderOperation.dart';
 import 'package:retail_store_management_system/Tables/RecentOrders.dart';
 import 'package:retail_store_management_system/models/OrderModel.dart';
 import 'package:retail_store_management_system/operations/Collection.dart';
+import 'package:retail_store_management_system/operations/InventoryOperation.dart';
 
 class Dashboard extends StatefulWidget {
   const Dashboard({Key? key}) : super(key: key);
@@ -15,6 +16,7 @@ class Dashboard extends StatefulWidget {
 
 class _Dashboard extends State<Dashboard> {
   var order = OrderOperation();
+  var check = InventoryOperation();
   late Future<List<OrderModel>> newPurchase;
   final productName = TextEditingController();
   final price = TextEditingController();
@@ -415,27 +417,44 @@ class _Dashboard extends State<Dashboard> {
                             ),
                             child: const Text('ADD'),
                             onPressed: () async {
-                              //add the purchase to the list and pass it
-                              //to the Future or promise data for the table
-                              newPurchase = order.getPurchaseList(
-                                OrderModel.newPurchase(
-                                  productName.text,
-                                  double.parse(price.text),
-                                  size.text,
-                                  int.parse(qty.text),
-                                  dateinput.text,
-                                ),
-                              );
+                              //check product before adding to the table
+                              check
+                                  .fetchProducts(productName.text, size.text)
+                                  .then((value) {
+                                if (value) {
+                                  bool checking = check.checkQty(
+                                      int.parse(qty.text), productName.text);
+                                  //add the purchase to the list and pass it
+                                  //to the Future or promise data for the table
 
-                              setState(() {
-                                newPurchase = newPurchase;
+                                  if (!checking) {
+                                    print("QTY is not enough");
+                                    return;
+                                  }
+
+                                  newPurchase = order.getPurchaseList(
+                                    OrderModel.newPurchase(
+                                      productName.text,
+                                      double.parse(price.text),
+                                      size.text,
+                                      int.parse(qty.text),
+                                      dateinput.text,
+                                    ),
+                                  );
+
+                                  setState(() {
+                                    newPurchase = newPurchase;
+                                  });
+                                } else {
+                                  print("ERRORRR");
+                                }
                               });
 
-                              productName.clear();
-                              price.clear();
-                              size.clear();
-                              qty.clear();
-                              dateinput.clear();
+                              // productName.clear();
+                              // price.clear();
+                              // size.clear();
+                              // qty.clear();
+                              // dateinput.clear();
                             },
                           ),
                         ],
