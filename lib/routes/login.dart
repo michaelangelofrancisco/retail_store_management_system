@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'package:retail_store_management_system/routes/CreateAccount.dart';
 
 class Login extends StatefulWidget {
   @override
@@ -79,16 +80,34 @@ class _Login extends State<Login> {
           ),
         ),
         Padding(
-          padding: const EdgeInsets.only(left: 180),
+          padding: const EdgeInsets.only(left: 0),
           child: TextButton(
             child: Text(
-              'Forgot password?',
+              'Forgot Password?',
               style: TextStyle(
                 fontSize: 12,
                 fontFamily: 'Cairo_SemiBold',
               ),
             ),
             onPressed: () {},
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.only(left: 0),
+          child: TextButton(
+            child: Text(
+              'Create New Account',
+              style: TextStyle(
+                fontSize: 12,
+                fontFamily: 'Cairo_SemiBold',
+              ),
+            ),
+            onPressed: () {
+              Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(
+                      builder: (BuildContext context) => CreateAccount()));
+            },
           ),
         ),
         SizedBox(height: 10),

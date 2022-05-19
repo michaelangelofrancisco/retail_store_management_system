@@ -147,7 +147,7 @@ List<_Row> _paymentsList(List<SalesModel> salesList) {
           salesList[index].getDateOfPurchased.toString(),
           salesList[index].getStaff.toString(),
           TextButton(
-            child: const Text('LISTS'),
+            child: const Text('List'),
             onPressed: () {},
           ),
         );

@@ -3,7 +3,7 @@ class DataOrderModel {
   double? price;
   String? size;
   int? quantity;
-  double? payment;
+  String? status;
   String? dateOfPurchased;
   String? staff;
 
@@ -23,9 +23,9 @@ class DataOrderModel {
 
   set setQuantity(quantity) => this.quantity = quantity;
 
-  get getPayment => this.payment;
+  get getStatus => this.status;
 
-  set setPayment(payment) => this.payment = payment;
+  set getStatus(status) => this.status = status;
 
   get getDateOfPurchased => this.dateOfPurchased;
 
@@ -39,12 +39,12 @@ class DataOrderModel {
   DataOrderModel.empty();
 
   DataOrderModel.tableFull(String productNumber, double price, String size,
-      int quantity, double payment, String dateOfPurcahased, String stuff) {
+      int quantity, String status, String dateOfPurcahased, String stuff) {
     this.productName = productName;
     this.price = price;
     this.size = size;
     this.quantity = quantity;
-    this.payment = payment;
+    this.status = status;
     this.dateOfPurchased = dateOfPurcahased;
     this.staff = staff;
   }
@@ -54,7 +54,7 @@ class DataOrderModel {
       this.price,
       this.size,
       this.quantity,
-      this.payment,
+      this.status,
       this.dateOfPurchased,
       this.staff});
 
@@ -64,7 +64,7 @@ class DataOrderModel {
       price: json['price'] as double,
       size: json['size'] as String,
       quantity: json['quantity'] as int,
-      payment: json['payment'] as double,
+      status: json['status'] as String,
       dateOfPurchased: json['date'] as String,
       staff: json['staff'] as String,
     );

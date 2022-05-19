@@ -369,7 +369,7 @@ class _Inventory extends State<Inventory> {
                           Positioned.fill(
                             child: Container(
                               decoration: BoxDecoration(
-                                color: HexColor("#155293"),
+                                color: HexColor("#002147"),
                               ),
                             ),
                           ),

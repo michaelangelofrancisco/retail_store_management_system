@@ -4,6 +4,7 @@ import 'package:hexcolor/hexcolor.dart';
 import 'package:retail_store_management_system/Operations/OrderOperation.dart';
 import 'package:retail_store_management_system/Tables/RecentOrders.dart';
 import 'package:retail_store_management_system/models/OrderModel.dart';
+import 'package:retail_store_management_system/operations/Collection.dart';
 
 class Dashboard extends StatefulWidget {
   const Dashboard({Key? key}) : super(key: key);
@@ -21,7 +22,7 @@ class _Dashboard extends State<Dashboard> {
   final qty = TextEditingController();
   final dateinput = TextEditingController();
 
-  int orderNumber = 0;
+  int orderNumber = 1;
   final totalprice = TextEditingController();
 
   @override
@@ -69,7 +70,7 @@ class _Dashboard extends State<Dashboard> {
                         softWrap: true,
                         style: TextStyle(
                           fontSize: 50,
-                          color: HexColor("#155293"),
+                          color: HexColor("#1e90ff"),
                           fontFamily: 'Cairo_Bold',
                         ),
                       ),
@@ -107,7 +108,7 @@ class _Dashboard extends State<Dashboard> {
                         softWrap: true,
                         style: TextStyle(
                           fontSize: 50,
-                          color: HexColor("#155293"),
+                          color: HexColor("#1e90ff"),
                           fontFamily: 'Cairo_Bold',
                         ),
                       ),
@@ -145,7 +146,7 @@ class _Dashboard extends State<Dashboard> {
                         softWrap: true,
                         style: TextStyle(
                           fontSize: 50,
-                          color: HexColor("#155293"),
+                          color: HexColor("#1e90ff"),
                           fontFamily: 'Cairo_Bold',
                         ),
                       ),
@@ -183,7 +184,7 @@ class _Dashboard extends State<Dashboard> {
                         softWrap: true,
                         style: TextStyle(
                           fontSize: 50,
-                          color: HexColor("#155293"),
+                          color: HexColor("#1e90ff"),
                           fontFamily: 'Cairo_Bold',
                         ),
                       ),
@@ -222,15 +223,15 @@ class _Dashboard extends State<Dashboard> {
                       maxLines: 2,
                     ),
                   ),
-                  Padding(
-                    padding: const EdgeInsets.only(top: 20),
+                  Align(
+                    alignment: Alignment.topLeft,
                     child: Text(
                       'Order Number: $orderNumber',
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         color: HexColor("#155293"),
                         fontFamily: 'Cairo_Bold',
-                        fontSize: 30,
+                        fontSize: 15,
                         overflow: TextOverflow.fade,
                       ),
                       maxLines: 2,
@@ -394,7 +395,7 @@ class _Dashboard extends State<Dashboard> {
                           Positioned.fill(
                             child: Container(
                               decoration: BoxDecoration(
-                                color: HexColor("#155293"),
+                                color: HexColor("#002147"),
                               ),
                             ),
                           ),
@@ -429,6 +430,12 @@ class _Dashboard extends State<Dashboard> {
                               setState(() {
                                 newPurchase = newPurchase;
                               });
+
+                              productName.clear();
+                              price.clear();
+                              size.clear();
+                              qty.clear();
+                              dateinput.clear();
                             },
                           ),
                         ],
@@ -475,13 +482,13 @@ class _Dashboard extends State<Dashboard> {
                       Padding(
                         padding: const EdgeInsets.only(top: 10, right: 600),
                         child: ClipRRect(
-                          borderRadius: BorderRadius.circular(20),
+                          borderRadius: BorderRadius.circular(30),
                           child: Stack(
                             children: <Widget>[
                               Positioned.fill(
                                 child: Container(
                                   decoration: BoxDecoration(
-                                    color: HexColor("#155293"),
+                                    color: HexColor("#002147"),
                                   ),
                                 ),
                               ),
@@ -504,7 +511,8 @@ class _Dashboard extends State<Dashboard> {
                                   //will add the orders to the database
                                   order
                                       .sendOrders(dateinput.text, orderNumber)
-                                      .then((value) => print("Success"));
+                                      .then((value) =>
+                                          Collection.purchases.clear());
                                 },
                               ),
                             ],

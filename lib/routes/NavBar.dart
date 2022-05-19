@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:hexcolor/hexcolor.dart';
 import 'package:retail_store_management_system/routes/Dashboard.dart';
 import 'package:retail_store_management_system/routes/Inventory.dart';
 import 'package:retail_store_management_system/routes/Order.dart';
 import 'package:retail_store_management_system/routes/Sales.dart';
+import 'package:retail_store_management_system/routes/login.dart';
 
 class NavBar extends StatefulWidget {
   const NavBar({Key? key}) : super(key: key);
@@ -36,7 +38,7 @@ class _NavBar extends State<NavBar> {
             elevation: 5,
             minWidth: 25.0,
             minExtendedWidth: 30.0,
-            backgroundColor: Colors.grey.shade900,
+            backgroundColor: HexColor("#002147"),
             selectedIndex: _selectedIndex,
             onDestinationSelected: (int index) {
               setState(() {

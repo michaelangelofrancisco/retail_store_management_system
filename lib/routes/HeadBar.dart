@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:hexcolor/hexcolor.dart';
+import 'package:retail_store_management_system/routes/login.dart';
 
 class HeadBar extends StatefulWidget with PreferredSizeWidget {
   const HeadBar({Key? key}) : super(key: key);
@@ -28,7 +30,7 @@ class _HeadBar extends State<HeadBar> {
       ),
       automaticallyImplyLeading: true,
       centerTitle: true,
-      backgroundColor: Colors.white,
+      backgroundColor: HexColor("#002147"),
       //leading: Image.asset('../assets/images/store-logo.png'),
       leadingWidth: 100,
       actions: <Widget>[
@@ -37,7 +39,12 @@ class _HeadBar extends State<HeadBar> {
           child: IconButton(
             icon: const Icon(Icons.logout),
             tooltip: 'Logout',
-            onPressed: () {},
+            onPressed: () {
+              Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(
+                      builder: (BuildContext context) => Login()));
+            },
           ),
         ),
       ],
