@@ -3,6 +3,9 @@ import 'package:intl/intl.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:retail_store_management_system/Operations/OrderOperation.dart';
 import 'package:retail_store_management_system/Tables/RecentOrders.dart';
+import 'package:retail_store_management_system/interfaces/NotifyUserName.dart';
+import 'package:retail_store_management_system/interfaces/NotifyUserQuantity.dart';
+import 'package:retail_store_management_system/interfaces/NotifyUserSize.dart';
 import 'package:retail_store_management_system/models/OrderModel.dart';
 import 'package:retail_store_management_system/operations/Collection.dart';
 import 'package:retail_store_management_system/operations/InventoryOperation.dart';
@@ -422,13 +425,66 @@ class _Dashboard extends State<Dashboard> {
                                   .fetchProducts(productName.text, size.text)
                                   .then((value) {
                                 if (value) {
-                                  bool checking = check.checkQty(
-                                      int.parse(qty.text), productName.text);
-                                  //add the purchase to the list and pass it
-                                  //to the Future or promise data for the table
+                                  List<bool> prod = check.checkProd(
+                                      productName.text,
+                                      size.text,
+                                      int.parse(qty.text.toString()));
 
-                                  if (!checking) {
+                                  //check name
+                                  if (!prod[0]) {
+                                    print("Product name Not Exist");
+                                    showDialog(
+                                        context: context,
+                                        builder: (BuildContext context) {
+                                          return SimpleDialog(
+                                            children: [
+                                              Container(
+                                                width: 410,
+                                                height: 130,
+                                                child: NotifyUserName(),
+                                              ),
+                                            ],
+                                          );
+                                        });
+                                    return;
+                                  }
+
+                                  //check size
+                                  if (!prod[1]) {
+                                    print(
+                                        "Size does not match any Product Size");
+                                    showDialog(
+                                        context: context,
+                                        builder: (BuildContext context) {
+                                          return SimpleDialog(
+                                            children: [
+                                              Container(
+                                                width: 410,
+                                                height: 130,
+                                                child: NotifyUserSize(),
+                                              ),
+                                            ],
+                                          );
+                                        });
+                                    return;
+                                  }
+
+                                  //check qty
+                                  if (!prod[2]) {
                                     print("QTY is not enough");
+                                    showDialog(
+                                        context: context,
+                                        builder: (BuildContext context) {
+                                          return SimpleDialog(
+                                            children: [
+                                              Container(
+                                                width: 400,
+                                                height: 130,
+                                                child: NotifyUserQuantity(),
+                                              ),
+                                            ],
+                                          );
+                                        });
                                     return;
                                   }
 
