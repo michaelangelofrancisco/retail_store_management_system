@@ -73,7 +73,7 @@ class InventoryOperation {
   List<bool> checkProd(String name, String size, int prevQty) {
     List<bool> checkName = [false, false, false];
 
-    print(Collector.getAddedProduct.toList());
+    print("LIST ${Collector.getAddedProduct.toList()}");
 
     Collector.getAddedProduct
         .where((element) => element.getProductInvName == name)
@@ -94,50 +94,5 @@ class InventoryOperation {
     });
 
     return checkName;
-  }
-
-  bool checkProductName(String prevName) {
-    bool checkName = false;
-
-    Collector.getAddedProduct
-        .where((element) => element.getProductInvName == prevName)
-        .forEach((element) {
-      if (prevName == element.getProductInvName) {
-        checkName = true;
-      }
-    });
-
-    return checkName;
-  }
-
-  bool checkProductSize(String prevSize) {
-    bool checkSize = false;
-
-    Collector.getAddedProduct
-        .where((element) => element.getProductInvSize)
-        .forEach((element) {
-      if (element.getProductInvSize == prevSize) {
-        checkSize = true;
-      }
-    });
-
-    return checkSize;
-  }
-
-  bool checkProduct(int prevQty, String name) {
-    bool check = false;
-
-    Collector.getAddedProduct
-        .where((element) => element.getProductInvName == name)
-        .forEach((element) {
-      // check qty
-      if (element.productInvQty! > 0) {
-        if (prevQty <= element.productInvQty! && prevQty != 0) {
-          check = true;
-        }
-      }
-    });
-
-    return check;
   }
 }

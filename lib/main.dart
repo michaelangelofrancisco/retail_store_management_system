@@ -1,60 +1,20 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
+import 'package:retail_store_management_system/routes/login.dart';
 
-void main() {
-  runApp(MyApp());
-}
+void main() => runApp(const MyApp());
 
 class MyApp extends StatelessWidget {
+  const MyApp({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      theme: ThemeData(
-          textTheme: GoogleFonts.poppinsTextTheme(
-        Theme.of(context).textTheme,
-      )),
-      title: '',
-      home: LoginPage(),
+      title: 'Retail Store Management System',
       debugShowCheckedModeBanner: false,
-    );
-  }
-}
-
-class LoginPage extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Color(0xFFF5F5F5),
-      body: ListView(
-        children: [
-          Menu();
-        ],
-      ),
-    );
-  }
-}
-
-class Menu extends StatelessWidget {
-  @override
-  Widget build(BuildContext context){
-    return Padding(
-      padding: EdgeInsets.symmetric(vertical: 30),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: [
-          _menuItem(title: 'Home'),
-        ],
-      ),
-    ); 
-  }
-  Widget _menuItem({String title, bool isActive = false}){
-    return Padding(
-      padding: EdgeInsets.only(right: 75),
-      child: Column(
-        children: [
-          Text('$title', style: TextStyle(fontWeight: FontWeight.bold, color))
-        ],
-      ),
+      routes: {
+        '/': (context) => Login(),
+        // '/home': (context) => const Home(),
+      },
     );
   }
 }

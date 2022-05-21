@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'package:retail_store_management_system/interfaces/accountNotify.dart';
+import 'package:retail_store_management_system/operations/staffAccountOperation.dart';
 import 'package:retail_store_management_system/routes/login.dart';
 
 class CreateAccount extends StatefulWidget {
@@ -13,13 +15,14 @@ class _AddAccount extends State<CreateAccount> {
   String fileName = 'Select account image';
   String error = '';
   //getting the text in the field
-  final username = TextEditingController();
   final firstname = TextEditingController();
   final lastname = TextEditingController();
   final mobileNumber = TextEditingController();
   final homeAddress = TextEditingController();
+  final username = TextEditingController();
   final password = TextEditingController();
   final confirmPassword = TextEditingController();
+  var account = staffAccountOperation();
 
   @override
   Widget build(BuildContext context) {
@@ -311,6 +314,51 @@ class _AddAccount extends State<CreateAccount> {
               error,
               style: TextStyle(fontSize: 10),
             ),
+            Container(
+              decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(30),
+                  boxShadow: [
+                    BoxShadow(
+                      color: HexColor("#002147"),
+                      spreadRadius: 1,
+                      blurRadius: 20,
+                    )
+                  ]),
+              child: ElevatedButton(
+                child: Container(
+                  width: double.infinity,
+                  height: 50,
+                  child: Center(child: Text('Create')),
+                ),
+                onPressed: () {
+                  account
+                      .sendAccountDetails(
+                          firstname.text,
+                          lastname.text,
+                          int.parse(mobileNumber.text.toString()),
+                          homeAddress.text,
+                          username.text,
+                          password.text)
+                      .then((value) => print('New product has been added'));
+
+                  accountNotify();
+
+                  firstname.clear();
+                  lastname.clear();
+                  mobileNumber.clear();
+                  homeAddress.clear();
+                  username.clear();
+                  password.clear();
+                  confirmPassword.clear();
+                },
+                style: ElevatedButton.styleFrom(
+                    primary: HexColor("#002147"),
+                    onPrimary: Colors.white,
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(15))),
+              ),
+            )
           ],
         )
       ],

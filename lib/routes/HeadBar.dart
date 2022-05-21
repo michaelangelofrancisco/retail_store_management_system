@@ -21,16 +21,9 @@ class _HeadBar extends State<HeadBar> {
   @override
   Widget build(BuildContext context) {
     return AppBar(
-      title: const Text(
-        'Retail Store Management System',
-        style: TextStyle(
-          fontFamily: 'Cairo_Bold',
-          fontSize: 25,
-        ),
-      ),
       automaticallyImplyLeading: true,
       centerTitle: true,
-      backgroundColor: HexColor("#002147"),
+      backgroundColor: HexColor("#ffffff"),
       //leading: Image.asset('../assets/images/store-logo.png'),
       leadingWidth: 100,
       actions: <Widget>[
@@ -38,6 +31,40 @@ class _HeadBar extends State<HeadBar> {
           padding: const EdgeInsets.only(right: 30),
           child: IconButton(
             icon: const Icon(Icons.logout),
+            color: Colors.black,
+            tooltip: 'Logout',
+            onPressed: () {
+              Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(
+                      builder: (BuildContext context) => Login()));
+            },
+          ),
+        ),
+      ],
+
+      title: const Text(
+        'Retail Store Management System',
+        textAlign: TextAlign.center,
+        style: TextStyle(
+          color: Colors.black,
+          fontFamily: 'Cairo_Bold',
+          fontSize: 30,
+          overflow: TextOverflow.fade,
+        ),
+      ),
+
+      automaticallyImplyLeading: true,
+      centerTitle: true,
+      backgroundColor: HexColor("#ffffff"),
+      //leading: Image.asset('../assets/images/store-logo.png'),
+      leadingWidth: 100,
+      actions: <Widget>[
+        Padding(
+          padding: const EdgeInsets.only(right: 30),
+          child: IconButton(
+            icon: const Icon(Icons.logout),
+            color: Colors.black,
             tooltip: 'Logout',
             onPressed: () {
               Navigator.pushReplacement(
