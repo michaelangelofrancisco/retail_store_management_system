@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'package:retail_store_management_system/operations/InventoryOperation.dart';
 import 'package:retail_store_management_system/routes/CreateAccount.dart';
 import 'package:retail_store_management_system/routes/Home.dart';
 
@@ -232,6 +233,8 @@ class Body extends StatelessWidget {
               child: Center(child: Text('Sign In')),
             ),
             onPressed: () {
+              var a = InventoryOperation();
+              a.fetchInventory();
               Navigator.pushReplacement(context,
                   MaterialPageRoute(builder: (BuildContext context) => Home()));
             },

@@ -21,28 +21,6 @@ class _HeadBar extends State<HeadBar> {
   @override
   Widget build(BuildContext context) {
     return AppBar(
-      automaticallyImplyLeading: true,
-      centerTitle: true,
-      backgroundColor: HexColor("#ffffff"),
-      //leading: Image.asset('../assets/images/store-logo.png'),
-      leadingWidth: 100,
-      actions: <Widget>[
-        Padding(
-          padding: const EdgeInsets.only(right: 30),
-          child: IconButton(
-            icon: const Icon(Icons.logout),
-            color: Colors.black,
-            tooltip: 'Logout',
-            onPressed: () {
-              Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(
-                      builder: (BuildContext context) => Login()));
-            },
-          ),
-        ),
-      ],
-
       title: const Text(
         'Retail Store Management System',
         textAlign: TextAlign.center,

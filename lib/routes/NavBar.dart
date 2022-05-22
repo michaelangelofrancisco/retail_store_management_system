@@ -3,6 +3,7 @@ import 'package:hexcolor/hexcolor.dart';
 import 'package:retail_store_management_system/routes/Dashboard.dart';
 import 'package:retail_store_management_system/routes/Inventory.dart';
 import 'package:retail_store_management_system/routes/Order.dart';
+import 'package:retail_store_management_system/routes/PrototypeDashboard.dart';
 import 'package:retail_store_management_system/routes/Sales.dart';
 import 'package:retail_store_management_system/routes/login.dart';
 
@@ -26,6 +27,7 @@ class _NavBar extends State<NavBar> {
     const Inventory(),
     const Sales(),
     Order(),
+    PrototypeDashboard(),
   ];
 
   @override
@@ -97,6 +99,19 @@ class _NavBar extends State<NavBar> {
                   'Order',
                   softWrap: true,
                   textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontSize: 8,
+                    color: Colors.white,
+                  ),
+                ),
+              ),
+              const NavigationRailDestination(
+                icon: Icon(
+                  Icons.space_dashboard,
+                  color: Colors.white,
+                ),
+                label: Text(
+                  'Prototype Dashboard',
                   style: TextStyle(
                     fontSize: 8,
                     color: Colors.white,
