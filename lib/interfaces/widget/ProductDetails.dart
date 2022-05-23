@@ -1,13 +1,38 @@
 import 'package:flutter/material.dart';
+import 'package:retail_store_management_system/models/OrderModel.dart';
+import 'package:retail_store_management_system/operations/OrderOperation.dart';
 import 'package:retail_store_management_system/operations/item.dart';
 
-class ProductDetails extends StatelessWidget {
+class ProductDetails extends StatefulWidget {
   final Item item;
+  ProductDetails({required this.item});
 
-  int temp = 0;
-  ProductDetails(this.item);
+  @override
+  _ProductDetailsState createState() => _ProductDetailsState();
+}
+
+class _ProductDetailsState extends State<ProductDetails> {
+  var order = OrderOperation();
+  late Future<List<OrderModel>> newPurchase;
 
   //The one that is being display in a POS Dashboard
+  int temp = 0;
+  int orderNumber = 1;
+
+  @override
+  void initState() {
+    //step 1
+    order.getOrderNumber().then((value) {
+      setState(() {
+        value++;
+      });
+      orderNumber = value;
+    });
+    //step 2
+    newPurchase = order.getPurchaseList(OrderModel.empty());
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -16,7 +41,7 @@ class ProductDetails extends StatelessWidget {
       child: Column(
         children: [
           Text(
-            item.productName.toString(),
+            widget.item.productName.toString(),
             style: TextStyle(
               fontWeight: FontWeight.bold,
               fontSize: 15,
@@ -28,8 +53,10 @@ class ProductDetails extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              _BuildIconText(Icons.exposure, Colors.blue, item.qty.toString()),
-              _BuildIconText(Icons.scale, Colors.red, item.size.toString()),
+              _BuildIconText(
+                  Icons.exposure, Colors.blue, widget.item.qty.toString()),
+              _BuildIconText(
+                  Icons.scale, Colors.red, widget.item.size.toString()),
             ],
           ),
           SizedBox(
@@ -60,7 +87,7 @@ class ProductDetails extends StatelessWidget {
                         ),
                       ),
                       Text(
-                        item.price.toString(),
+                        widget.item.price.toString(),
                         style: TextStyle(
                             fontSize: 24, fontWeight: FontWeight.bold),
                       )
@@ -88,7 +115,12 @@ class ProductDetails extends StatelessWidget {
                               fontFamily: 'Cairo_Bold',
                             ),
                           ),
-                          onPressed: () {},
+                          onPressed: () {
+                            setState(() {
+                              temp--;
+                              print(temp.toString());
+                            });
+                          },
                         ),
                         Container(
                           padding: EdgeInsets.all(12),
@@ -113,9 +145,10 @@ class ProductDetails extends StatelessWidget {
                             ),
                           ),
                           onPressed: () {
-                            temp++;
-                            print(temp.toString());
-                            Navigator.of(context).pop();
+                            setState(() {
+                              temp++;
+                              print(temp.toString());
+                            });
                           },
                         ),
                       ],
@@ -146,7 +179,7 @@ class ProductDetails extends StatelessWidget {
             height: 10,
           ),
           Text(
-            item.description.toString(),
+            widget.item.description.toString(),
             style: TextStyle(
               wordSpacing: 1.2,
               height: 1.5,
@@ -158,15 +191,41 @@ class ProductDetails extends StatelessWidget {
           ),
           Align(
             alignment: Alignment.topRight,
-            child: IconButton(
+            child: TextButton.icon(
+              //Today collection graph
               icon: Icon(
                 Icons.shopping_bag_outlined,
+                size: 24,
                 color: Colors.black,
-                size: 30,
+              ),
+              label: Text(
+                //vars here to be setState
+                'Add to cart',
+                softWrap: true,
+                style: TextStyle(
+                  fontSize: 10,
+                  color: Colors.black,
+                  fontFamily: 'Cairo_Bold',
+                ),
               ),
               onPressed: () {
+                newPurchase = order.getPurchaseList(
+                  OrderModel.newPurchase(
+                    widget.item.productName,
+                    widget.item.price,
+                    widget.item.size,
+                    temp,
+                    'May 2',
+                    'WALKIN',
+                    'Michael Angelo',
+                  ),
+                );
+
+                setState(() {
+                  newPurchase = newPurchase;
+                });
                 Navigator.pop(context);
-              },
+              }, //pwdeng refresh button
             ),
           ),
         ],

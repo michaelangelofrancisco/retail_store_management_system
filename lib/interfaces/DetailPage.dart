@@ -29,7 +29,7 @@ class DetailPage extends StatelessWidget {
               leftCallback: () => Navigator.of(context).pop(),
             ),
             ProductImg(item),
-            ProductDetails(item),
+            ProductDetails(item: item),
           ],
         ),
       ],

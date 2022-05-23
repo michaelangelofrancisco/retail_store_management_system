@@ -14,12 +14,13 @@ class OrderOperation implements IOrder {
 
     Collection.purchases.add(
       OrderModel.newPurchase(
-        newPurchase.getProductName,
-        newPurchase.getProductPrice,
-        newPurchase.getProductSize,
-        newPurchase.getProductQuantity,
-        newPurchase.getDateToday,
-      ),
+          newPurchase.getProductName,
+          newPurchase.getProductPrice,
+          newPurchase.getProductSize,
+          newPurchase.getProductQuantity,
+          newPurchase.getDateToday,
+          newPurchase.getStatus,
+          newPurchase.getstaff),
     );
 
     //static list of purchases for one copy no overwriting

@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:retail_store_management_system/operations/Collector.dart';
 import 'package:retail_store_management_system/operations/item.dart';
 
-class ProductItem extends StatelessWidget {
+class InventoryItem extends StatelessWidget {
   final Item item;
-  ProductItem(this.item);
+  InventoryItem(this.item);
 
   @override
   Widget build(BuildContext context) {

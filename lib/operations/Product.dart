@@ -31,10 +31,10 @@ class Product {
       'Coke',
       4.7,
       {
-        'Recommend': Item.generateRecommendFoods(),
-        'Popular': Item.generatePopularFoods(),
-        'Vapes': [],
-        'Juice': [],
+        'Items': Item.generateRecommendFoods(),
+        'Coming Soon': Item.generatePopularFoods(),
+        'Soon': [],
+        'Soon': [],
       },
     );
   }

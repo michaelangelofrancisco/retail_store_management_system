@@ -495,6 +495,8 @@ class _Dashboard extends State<Dashboard> {
                                       size.text,
                                       int.parse(qty.text),
                                       dateinput.text,
+                                      '',
+                                      '',
                                     ),
                                   );
 

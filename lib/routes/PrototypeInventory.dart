@@ -3,17 +3,16 @@ import 'package:hexcolor/hexcolor.dart';
 import 'package:retail_store_management_system/interfaces/ShopCartDashboard.dart';
 import 'package:retail_store_management_system/operations/Collection.dart';
 import 'package:retail_store_management_system/operations/InventoryOperation.dart';
+import 'package:retail_store_management_system/operations/NewInventory/InventoryListView.dart';
 import 'package:retail_store_management_system/operations/Product.dart';
-import 'package:retail_store_management_system/operations/ProductListView.dart';
-import 'package:retail_store_management_system/operations/StoreInfo.dart';
-import 'package:retail_store_management_system/routes/ProductList.dart';
+import 'package:retail_store_management_system/routes/AddInventory.dart';
 
-class PrototypeDashboard extends StatefulWidget {
+class PrototypeInventory extends StatefulWidget {
   @override
-  _PrototypeDashboard createState() => _PrototypeDashboard();
+  _PrototypeInventory createState() => _PrototypeInventory();
 }
 
-class _PrototypeDashboard extends State<PrototypeDashboard> {
+class _PrototypeInventory extends State<PrototypeInventory> {
   var selected = 0;
   final pageController = PageController();
   final product = Product.generateStore();
@@ -31,19 +30,16 @@ class _PrototypeDashboard extends State<PrototypeDashboard> {
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          StoreInfo(),
-          ProductList(selected, (int index) {
-            setState(() {
-              selected = index;
-            });
-            pageController.jumpToPage(index);
-          }, product),
           Expanded(
-            child: ProductListView(selected, (int index) {
-              setState(() {
-                selected = index;
-              });
-            }, pageController, product),
+            child: Container(
+              width: MediaQuery.of(context).size.width,
+              height: MediaQuery.of(context).size.height,
+              child: InventoryListView(selected, (int index) {
+                setState(() {
+                  selected = index;
+                });
+              }, pageController, product),
+            ),
           ),
         ],
       ),
@@ -55,10 +51,9 @@ class _PrototypeDashboard extends State<PrototypeDashboard> {
                   return SimpleDialog(
                     children: [
                       Container(
-                        width: (MediaQuery.of(context).size.width),
-                        height: (MediaQuery.of(context).size.height),
-                        child: ShopCartDashboard(
-                            newPurchaes: Collection.purchases),
+                        width: (285),
+                        height: (450),
+                        child: AddInventory(),
                       ),
                     ],
                   );
@@ -67,7 +62,7 @@ class _PrototypeDashboard extends State<PrototypeDashboard> {
           backgroundColor: Colors.yellow,
           elevation: 2,
           child: Icon(
-            Icons.shopping_bag_outlined,
+            Icons.add_circle,
             color: Colors.black,
             size: 30,
           )),
