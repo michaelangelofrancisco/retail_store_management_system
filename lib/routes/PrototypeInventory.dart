@@ -6,6 +6,7 @@ import 'package:retail_store_management_system/operations/InventoryOperation.dar
 import 'package:retail_store_management_system/operations/NewInventory/InventoryListView.dart';
 import 'package:retail_store_management_system/operations/Product.dart';
 import 'package:retail_store_management_system/routes/AddInventory.dart';
+import 'package:retail_store_management_system/routes/Atrry.dart';
 
 class PrototypeInventory extends StatefulWidget {
   @override
@@ -45,19 +46,8 @@ class _PrototypeInventory extends State<PrototypeInventory> {
       ),
       floatingActionButton: FloatingActionButton(
           onPressed: () {
-            showDialog(
-                context: context,
-                builder: (BuildContext context) {
-                  return SimpleDialog(
-                    children: [
-                      Container(
-                        width: (285),
-                        height: (450),
-                        child: AddInventory(),
-                      ),
-                    ],
-                  );
-                });
+            Navigator.pushReplacement(context,
+                MaterialPageRoute(builder: (BuildContext context) => Atrry()));
           },
           backgroundColor: Colors.yellow,
           elevation: 2,

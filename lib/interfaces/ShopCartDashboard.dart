@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hexcolor/hexcolor.dart';
 import 'package:retail_store_management_system/models/OrderModel.dart';
 
 class ShopCartDashboard extends StatefulWidget {
@@ -18,9 +19,19 @@ class _ShopCartDashboard extends State<ShopCartDashboard> {
     super.initState();
   }
 
-  Widget build(BuildContext context) {
-    int totalPrice = 0;
+// Getting the total price
+  double getTotalPrice() {
+    double totalPrice = 0;
 
+    widget.newPurchaes?.forEach((element) {
+      totalPrice += element.getProductPrice * element.getProductQuantity;
+    });
+
+    return totalPrice;
+  }
+
+//Output all of the added item in cart
+  Widget build(BuildContext context) {
     return Column(
       children: <Widget>[
         Padding(
@@ -37,6 +48,23 @@ class _ShopCartDashboard extends State<ShopCartDashboard> {
                 Navigator.of(context).pop();
               },
             ),
+          ),
+        ),
+        SizedBox(
+          height: 15,
+        ),
+        Padding(
+          padding: const EdgeInsets.only(top: 20),
+          child: Text(
+            'Total Price' + getTotalPrice().toString(),
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              color: HexColor("#155293"),
+              fontFamily: 'Cairo_Bold',
+              fontSize: 30,
+              overflow: TextOverflow.fade,
+            ),
+            maxLines: 2,
           ),
         ),
         Expanded(

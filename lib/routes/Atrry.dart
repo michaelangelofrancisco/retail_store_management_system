@@ -1,28 +1,31 @@
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'package:intl/intl.dart';
 import 'package:retail_store_management_system/interfaces/accountNotify.dart';
-import 'package:retail_store_management_system/operations/staffAccountOperation.dart';
+import 'package:retail_store_management_system/models/InventoryModel.dart';
+import 'package:retail_store_management_system/operations/InventoryOperation.dart';
+import 'package:retail_store_management_system/operations/Product.dart';
+import 'package:retail_store_management_system/routes/PrototypeInventory.dart';
 import 'package:retail_store_management_system/routes/login.dart';
 
-class CreateAccount extends StatefulWidget {
+class Atrry extends StatefulWidget {
   @override
-  _AddAccount createState() => _AddAccount();
+  _Atrry createState() => _Atrry();
 }
 
-class _AddAccount extends State<CreateAccount> {
-  //classes
-  //dipslay the image name
-  String fileName = 'Select account image';
-  String error = '';
-  //getting the text in the field
-  final firstname = TextEditingController();
-  final lastname = TextEditingController();
-  final mobileNumber = TextEditingController();
-  final homeAddress = TextEditingController();
-  final username = TextEditingController();
-  final password = TextEditingController();
-  final confirmPassword = TextEditingController();
-  var account = staffAccountOperation();
+class _Atrry extends State<Atrry> {
+  final productName = TextEditingController();
+  final price = TextEditingController();
+  final size = TextEditingController();
+  final qty = TextEditingController();
+  var dateinput = TextEditingController();
+  late Future<List<InventoryModel>> inventoryShow;
+  var inventory = InventoryOperation();
+
+  var selected = 0;
+  final pageController = PageController();
+  final product = Product.generateStore();
+  var a = InventoryOperation();
 
   @override
   Widget build(BuildContext context) {
@@ -41,30 +44,19 @@ class _AddAccount extends State<CreateAccount> {
                   size: 30,
                 ),
                 onPressed: () {
-                  Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(
-                          builder: (BuildContext context) => Login()));
+                  Navigator.of(context).pop();
                 },
               ),
             ),
             Text(
-              'Create Staff Account',
+              'New Product',
               softWrap: true,
               textAlign: TextAlign.center,
               style: TextStyle(
-                fontSize: 18,
-                color: Colors.black,
-              ),
-            ),
-            SizedBox(
-              height: 8,
-            ),
-            Container(
-              width: 30,
-              child: Divider(
-                color: HexColor("#C23B23"),
-                thickness: 2,
+                fontFamily: 'Cairo_Bold',
+                fontSize: 27,
+                color: HexColor("#155293"),
+                overflow: TextOverflow.fade,
               ),
             ),
             Padding(
@@ -72,7 +64,7 @@ class _AddAccount extends State<CreateAccount> {
               child: Container(
                 alignment: Alignment.centerLeft,
                 child: Text(
-                  'Username',
+                  'ProductName',
                   style: TextStyle(fontSize: 10),
                 ),
               ),
@@ -82,9 +74,9 @@ class _AddAccount extends State<CreateAccount> {
               child: Padding(
                 padding: EdgeInsets.only(bottom: 15),
                 child: TextField(
-                  controller: username,
+                  controller: productName,
                   decoration: InputDecoration(
-                    hintText: 'Username',
+                    hintText: 'ProductName',
                     filled: true,
                     fillColor: Colors.blueGrey[50],
                     labelStyle: TextStyle(fontSize: 10),
@@ -106,85 +98,7 @@ class _AddAccount extends State<CreateAccount> {
               child: Container(
                 alignment: Alignment.centerLeft,
                 child: Text(
-                  'Fullname',
-                  style: TextStyle(fontSize: 10),
-                ),
-              ),
-            ),
-            Stack(
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    Container(
-                      alignment: Alignment.topLeft,
-                      width: 155,
-                      child: Padding(
-                        padding: EdgeInsets.only(bottom: 20),
-                        child: TextField(
-                          controller: firstname,
-                          decoration: InputDecoration(
-                            hintText: 'Firstname',
-                            filled: true,
-                            fillColor: Colors.blueGrey[50],
-                            labelStyle: TextStyle(fontSize: 10),
-                            contentPadding: EdgeInsets.only(left: 10),
-                            enabledBorder: OutlineInputBorder(
-                              borderSide:
-                                  BorderSide(color: Colors.blueGrey.shade50),
-                              borderRadius: BorderRadius.circular(5),
-                            ),
-                            focusedBorder: OutlineInputBorder(
-                              borderSide:
-                                  BorderSide(color: Colors.blueGrey.shade50),
-                              borderRadius: BorderRadius.circular(5),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    Container(
-                      alignment: Alignment.topRight,
-                      width: 155,
-                      child: Padding(
-                        padding: EdgeInsets.only(bottom: 15),
-                        child: TextField(
-                          controller: lastname,
-                          decoration: InputDecoration(
-                            hintText: 'Lastname',
-                            filled: true,
-                            fillColor: Colors.blueGrey[50],
-                            labelStyle: TextStyle(fontSize: 10),
-                            contentPadding: EdgeInsets.only(left: 10),
-                            enabledBorder: OutlineInputBorder(
-                              borderSide:
-                                  BorderSide(color: Colors.blueGrey.shade50),
-                              borderRadius: BorderRadius.circular(5),
-                            ),
-                            focusedBorder: OutlineInputBorder(
-                              borderSide:
-                                  BorderSide(color: Colors.blueGrey.shade50),
-                              borderRadius: BorderRadius.circular(5),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ],
-            ),
-            Padding(
-              padding: EdgeInsets.only(left: 2),
-              child: Container(
-                alignment: Alignment.centerLeft,
-                child: Text(
-                  'Mobile Number',
+                  'Price',
                   style: TextStyle(fontSize: 10),
                 ),
               ),
@@ -192,11 +106,11 @@ class _AddAccount extends State<CreateAccount> {
             Padding(
               padding: EdgeInsets.only(bottom: 15),
               child: TextField(
-                controller: mobileNumber,
+                controller: price,
                 maxLength: 12,
                 decoration: InputDecoration(
                   counterText: '',
-                  hintText: 'Mobile Number',
+                  hintText: 'Price',
                   filled: true,
                   fillColor: Colors.blueGrey[50],
                   labelStyle: TextStyle(fontSize: 10),
@@ -217,7 +131,7 @@ class _AddAccount extends State<CreateAccount> {
               child: Container(
                 alignment: Alignment.centerLeft,
                 child: Text(
-                  'Home Address',
+                  'Size',
                   style: TextStyle(fontSize: 10),
                 ),
               ),
@@ -225,9 +139,9 @@ class _AddAccount extends State<CreateAccount> {
             Padding(
               padding: EdgeInsets.only(bottom: 15),
               child: TextField(
-                controller: homeAddress,
+                controller: size,
                 decoration: InputDecoration(
-                  hintText: 'Home Address',
+                  hintText: 'Size',
                   filled: true,
                   fillColor: Colors.blueGrey[50],
                   labelStyle: TextStyle(fontSize: 10),
@@ -248,7 +162,7 @@ class _AddAccount extends State<CreateAccount> {
               child: Container(
                 alignment: Alignment.centerLeft,
                 child: Text(
-                  'Password',
+                  'Quantity',
                   style: TextStyle(fontSize: 10),
                 ),
               ),
@@ -256,10 +170,9 @@ class _AddAccount extends State<CreateAccount> {
             Padding(
               padding: EdgeInsets.only(bottom: 15),
               child: TextField(
-                controller: password,
-                obscureText: true,
+                controller: qty,
                 decoration: InputDecoration(
-                  hintText: 'Password',
+                  hintText: 'Quantity',
                   filled: true,
                   fillColor: Colors.blueGrey[50],
                   labelStyle: TextStyle(fontSize: 10),
@@ -280,47 +193,65 @@ class _AddAccount extends State<CreateAccount> {
               child: Container(
                 alignment: Alignment.centerLeft,
                 child: Text(
-                  'Confirm Password',
+                  'Date Today',
                   style: TextStyle(fontSize: 10),
                 ),
               ),
             ),
             Padding(
-              padding: EdgeInsets.only(bottom: 0),
+              padding: EdgeInsets.only(bottom: 15),
               child: TextField(
-                controller: confirmPassword,
-                obscureText: true,
-                onChanged: (value) {
-                  setState(() {
-                    if (value.length > 0) {
-                      if (value == password.text) {
-                        error = 'Password match';
-                      } else {
-                        error = 'Password did not match';
-                      }
-                    }
-                  });
+                controller: dateinput,
+                decoration: InputDecoration(
+                  labelStyle: TextStyle(fontSize: 12),
+                  contentPadding: EdgeInsets.only(left: 15),
+                  filled: true,
+                  hintText: 'Date Today',
+                  fillColor: Colors.blueGrey[50],
+                  enabledBorder: OutlineInputBorder(
+                    borderSide: BorderSide(color: Colors.blueGrey.shade50),
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderSide: BorderSide(color: Colors.blueGrey.shade50),
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                ),
+                //readOnly: true,
+                onTap: () async {
+                  DateTime? pickedDate = await showDatePicker(
+                    context: context,
+                    initialDate: DateTime.now(),
+                    firstDate: DateTime(2022),
+                    lastDate: DateTime(2032),
+                    builder: (context, child) {
+                      return Theme(
+                        data: Theme.of(context).copyWith(
+                          colorScheme: ColorScheme.light(
+                            primary: Colors.red, //Background Color
+                            onPrimary: Colors.white, //Text Color
+                          ),
+                          textButtonTheme: TextButtonThemeData(
+                            style: TextButton.styleFrom(
+                              primary: Colors.black, //Button Text Color
+                            ),
+                          ),
+                        ),
+                        child: child!,
+                      );
+                    },
+                  );
+                  if (pickedDate != null) {
+                    String formatDate =
+                        DateFormat('yyyy-MM-dd').format(pickedDate);
+                    setState(() {
+                      dateinput.text = formatDate;
+                    });
+                  } else {
+                    print("Date is not selected");
+                  }
                 },
-                decoration: InputDecoration(
-                  hintText: 'Confirm Password',
-                  filled: true,
-                  fillColor: Colors.blueGrey[50],
-                  labelStyle: TextStyle(fontSize: 10),
-                  contentPadding: EdgeInsets.only(left: 10),
-                  enabledBorder: OutlineInputBorder(
-                    borderSide: BorderSide(color: Colors.blueGrey.shade50),
-                    borderRadius: BorderRadius.circular(5),
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderSide: BorderSide(color: Colors.blueGrey.shade50),
-                    borderRadius: BorderRadius.circular(5),
-                  ),
-                ),
               ),
-            ),
-            Text(
-              error,
-              style: TextStyle(fontSize: 10),
             ),
             Container(
               decoration: BoxDecoration(
@@ -328,7 +259,7 @@ class _AddAccount extends State<CreateAccount> {
                   borderRadius: BorderRadius.circular(30),
                   boxShadow: [
                     BoxShadow(
-                      color: HexColor("#C23B23").withOpacity(0.2),
+                      color: HexColor("#002147"),
                       spreadRadius: 1,
                       blurRadius: 20,
                     )
@@ -340,33 +271,26 @@ class _AddAccount extends State<CreateAccount> {
                   child: Center(child: Text('Create')),
                 ),
                 onPressed: () {
-                  account
-                      .sendAccountDetails(
-                          firstname.text,
-                          lastname.text,
-                          int.parse(mobileNumber.text.toString()),
-                          homeAddress.text,
-                          username.text,
-                          password.text)
-                      .then((value) => print('New product has been added'));
-
-                  accountNotify();
-
-                  firstname.clear();
-                  lastname.clear();
-                  mobileNumber.clear();
-                  homeAddress.clear();
-                  username.clear();
-                  password.clear();
-                  confirmPassword.clear();
+                  setState(() {
+                    a.fetchInventory();
+                  });
+                  Navigator.of(context).pop();
+                  inventory
+                      .sendInventory(productName.text, double.parse(price.text),
+                          size.text, int.parse(qty.text), dateinput.text)
+                      .then((value) => {
+                            setState(() {
+                              a.fetchInventory();
+                            }),
+                          });
                 },
                 style: ElevatedButton.styleFrom(
-                    primary: HexColor("#C23B23"),
+                    primary: HexColor("#002147"),
                     onPrimary: Colors.white,
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(15))),
               ),
-            )
+            ),
           ],
         )
       ],
