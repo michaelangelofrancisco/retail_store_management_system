@@ -1,7 +1,8 @@
+import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:retail_store_management_system/interfaces/IOrder.dart';
 import 'package:retail_store_management_system/models/OrderModel.dart';
-import 'package:http/http.dart' as http;
 import 'package:retail_store_management_system/operations/Collection.dart';
 
 class OrderOperation implements IOrder {
@@ -26,6 +27,17 @@ class OrderOperation implements IOrder {
     //static list of purchases for one copy no overwriting
     //and easy to access
     return Collection.purchases;
+  }
+
+  Future<int> getOrderNumber() async {
+    Map<String, dynamic> orderNumber;
+    final response = await http
+        .get(Uri.parse("http://localhost:8090/api/orderNumberBiggest"));
+
+    orderNumber = jsonDecode(response.body);
+
+    // Use the compute function to run parseAdmin in a separate isolate.
+    return orderNumber["max_order_number"];
   }
 
   @override
@@ -59,16 +71,5 @@ class OrderOperation implements IOrder {
       }
     }
     return true;
-  }
-
-  Future<int> getOrderNumber() async {
-    Map<String, dynamic> orderNumber;
-    final response = await http
-        .get(Uri.parse("http://localhost:8090/api/orderNumberBiggest"));
-
-    orderNumber = jsonDecode(response.body);
-
-    // Use the compute function to run parseAdmin in a separate isolate.
-    return orderNumber["max_order_number"];
   }
 }

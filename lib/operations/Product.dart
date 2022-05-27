@@ -32,7 +32,7 @@ class Product {
       4.7,
       {
         'Items': Item.generateRecommendFoods(),
-        'Coming Soon': Item.generatePopularFoods(),
+        //'Coming Soon': Item.generatePopularFoods(),
         'Soon': [],
         'Soon': [],
       },

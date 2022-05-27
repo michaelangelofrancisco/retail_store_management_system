@@ -95,14 +95,12 @@ class _LogInPageState extends State<LogInPage> {
                           ),
                           Container(
                             decoration: BoxDecoration(
-                              color: Colors.white,
+                              color: HexColor("#C23B23"),
                               borderRadius: BorderRadius.circular(15),
                               boxShadow: [
                                 BoxShadow(
                                   color: HexColor("#C23B23").withOpacity(0.2),
-                                  spreadRadius: 4,
                                   blurRadius: 7,
-                                  offset: Offset(0, 3),
                                 ),
                               ],
                             ),
@@ -119,7 +117,6 @@ class _LogInPageState extends State<LogInPage> {
                               child: Container(
                                 width: double.infinity,
                                 height: 50,
-                                color: HexColor("#C23B23"),
                                 child: Center(
                                   child: Text(
                                     "Log In",

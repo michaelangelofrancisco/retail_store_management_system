@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
-import 'package:retail_store_management_system/routes/Dashboard.dart';
+import 'package:retail_store_management_system/routes/POS.dart';
 import 'package:retail_store_management_system/routes/Inventory.dart';
 import 'package:retail_store_management_system/routes/Order.dart';
-import 'package:retail_store_management_system/routes/PrototypeDashboard.dart';
-import 'package:retail_store_management_system/routes/PrototypeInventory.dart';
 import 'package:retail_store_management_system/routes/Sales.dart';
 import 'package:retail_store_management_system/routes/login.dart';
 
@@ -24,12 +22,10 @@ class _NavBar extends State<NavBar> {
   int _selectedIndex = 0;
 
   List<Widget> pages = [
-    const Dashboard(),
-    const Inventory(),
+    POS(),
+    Inventory(),
     const Sales(),
     Order(),
-    PrototypeDashboard(),
-    PrototypeInventory(),
   ];
 
   @override
@@ -42,7 +38,7 @@ class _NavBar extends State<NavBar> {
             elevation: 6,
             minWidth: 25.0,
             minExtendedWidth: 30.0,
-            backgroundColor: HexColor("#002147"),
+            backgroundColor: HexColor("#C23B23"),
             selectedIndex: _selectedIndex,
             onDestinationSelected: (int index) {
               setState(() {
@@ -57,7 +53,7 @@ class _NavBar extends State<NavBar> {
                   color: Colors.white,
                 ),
                 label: Text(
-                  'Dashboard',
+                  'POS',
                   style: TextStyle(
                     fontSize: 8,
                     color: Colors.white,
@@ -101,32 +97,6 @@ class _NavBar extends State<NavBar> {
                   'Order',
                   softWrap: true,
                   textAlign: TextAlign.center,
-                  style: TextStyle(
-                    fontSize: 8,
-                    color: Colors.white,
-                  ),
-                ),
-              ),
-              const NavigationRailDestination(
-                icon: Icon(
-                  Icons.space_dashboard,
-                  color: Colors.white,
-                ),
-                label: Text(
-                  'Prototype Dashboard',
-                  style: TextStyle(
-                    fontSize: 8,
-                    color: Colors.white,
-                  ),
-                ),
-              ),
-              const NavigationRailDestination(
-                icon: Icon(
-                  Icons.space_dashboard,
-                  color: Colors.white,
-                ),
-                label: Text(
-                  'Prototype Inventory',
                   style: TextStyle(
                     fontSize: 8,
                     color: Colors.white,

@@ -1,10 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:retail_store_management_system/interfaces/CustomAppBar.dart';
-import 'package:retail_store_management_system/interfaces/widget/ProductDetails.dart';
-import 'package:retail_store_management_system/interfaces/widget/ProductImg.dart';
-import 'package:retail_store_management_system/operations/item.dart';
-
-import 'package:flutter/material.dart';
+import 'package:hexcolor/hexcolor.dart';
 import 'package:retail_store_management_system/interfaces/CustomAppBar.dart';
 import 'package:retail_store_management_system/interfaces/widget/ProductDetails.dart';
 import 'package:retail_store_management_system/interfaces/widget/ProductImg.dart';
@@ -17,7 +12,7 @@ class DetailPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      backgroundColor: Colors.yellow,
+      backgroundColor: HexColor("#C23B23"),
       actionsPadding: EdgeInsets.only(bottom: 5, left: 5, right: 5),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
       actions: <Widget>[

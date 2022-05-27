@@ -20,28 +20,32 @@ class InventoryListView extends StatelessWidget {
     final category = product.menu.keys.toList();
 
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: 25),
-      child: PageView(
-          controller: pageController,
-          onPageChanged: (index) => callback(index),
-          children: category
-              .map((e) => ListView.separated(
-                  padding: EdgeInsets.zero,
-                  itemBuilder: (context, index) => GestureDetector(
-                      //menus
-                      onTap: () {
-                        Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) => DetailPage(
-                                product.menu[category[selected]]![index])));
-                      },
-                      //laman ng menus
-                      child: InventoryItem(
-                          product.menu[category[selected]]![index])),
-                  separatorBuilder: (_, index) => SizedBox(
-                        height: 15,
-                      ),
-                  itemCount: product.menu[category[selected]]!.length))
-              .toList()),
+      padding: EdgeInsets.symmetric(horizontal: 5),
+      child: Container(
+        height: 50,
+        child: PageView(
+            controller: pageController,
+            onPageChanged: (index) => callback(index),
+            children: category
+                .map((e) => ListView.separated(
+                    padding: EdgeInsets.zero,
+                    itemBuilder: (context, index) => GestureDetector(
+                        /*
+                        //Pop up details menu
+                        onTap: () {
+                          Navigator.of(context).push(MaterialPageRoute(
+                              builder: (context) => DetailPage(
+                                  product.menu[category[selected]]![index])));
+                        },*/
+                        //laman ng menus
+                        child: InventoryItem(
+                            product.menu[category[selected]]![index])),
+                    separatorBuilder: (_, index) => SizedBox(
+                          height: 15,
+                        ),
+                    itemCount: product.menu[category[selected]]!.length))
+                .toList()),
+      ),
     );
   }
 }

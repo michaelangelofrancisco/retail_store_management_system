@@ -1,6 +1,6 @@
 import 'package:retail_store_management_system/interfaces/widget/ProductImg.dart';
 
-class InventoryModel {
+class productModel {
   int? productDetailsId;
   String? productName;
   double? price;
@@ -42,9 +42,9 @@ class InventoryModel {
 
   set setProductImage(productImage) => this.productImage = productImage;
 
-  InventoryModel.empty();
+  productModel.empty();
 
-  InventoryModel.inventory(
+  productModel.inventory(
       int productDetailsId,
       String productName,
       double price,
@@ -63,7 +63,7 @@ class InventoryModel {
     this.productImage = productImage;
   }
 
-  InventoryModel.fullJson(
+  productModel.fullJson(
       {this.productDetailsId,
       this.productName,
       this.price,
@@ -73,16 +73,16 @@ class InventoryModel {
       this.description,
       this.productImage});
 
-  factory InventoryModel.inventoryFromJson(Map<String, dynamic> json) {
-    return InventoryModel.fullJson(
+  factory productModel.inventoryFromJson(Map<String, dynamic> json) {
+    return productModel.fullJson(
       productDetailsId: json['productDetailsId'] as int,
       productName: json['productName'] as String,
-      price: json['price'] as double,
+      price: json['productInvPrice'] as double,
       size: json['size'] as String,
       quantity: json['quantity'] as int,
-      productInvDate: json['date'] as String,
+      productInvDate: json['productInvDate'] as String,
       description: json['description'] as String,
-      productImage: json['productImage'] as List<dynamic>?,
+      productImage: json['productImage'] as List<dynamic>,
     );
   }
 }

@@ -8,12 +8,12 @@ import 'package:retail_store_management_system/operations/ProductListView.dart';
 import 'package:retail_store_management_system/operations/StoreInfo.dart';
 import 'package:retail_store_management_system/routes/ProductList.dart';
 
-class PrototypeDashboard extends StatefulWidget {
+class POS extends StatefulWidget {
   @override
-  _PrototypeDashboard createState() => _PrototypeDashboard();
+  _POS createState() => _POS();
 }
 
-class _PrototypeDashboard extends State<PrototypeDashboard> {
+class _POS extends State<POS> {
   var selected = 0;
   final pageController = PageController();
   final product = Product.generateStore();

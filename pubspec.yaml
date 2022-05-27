@@ -38,6 +38,9 @@ dependencies:
   hexcolor: ^2.0.6
   http: ^0.13.4
   intl: ^0.17.0
+  open_file: ^3.2.1
+  path_provider: ^2.0.9
+  file_picker: ^4.6.0
 
 dev_dependencies:
   flutter_test:

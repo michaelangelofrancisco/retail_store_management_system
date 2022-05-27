@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:retail_store_management_system/models/OrderModel.dart';
+import 'package:retail_store_management_system/operations/Collection.dart';
 
 class ShopCartDashboard extends StatefulWidget {
   final List<OrderModel>? newPurchaes;
@@ -32,6 +33,9 @@ class _ShopCartDashboard extends State<ShopCartDashboard> {
 
 //Output all of the added item in cart
   Widget build(BuildContext context) {
+    final checkOut = TextEditingController();
+    int orderNumber = 0;
+
     return Column(
       children: <Widget>[
         Padding(
@@ -47,6 +51,43 @@ class _ShopCartDashboard extends State<ShopCartDashboard> {
               onPressed: () {
                 Navigator.of(context).pop();
               },
+            ),
+          ),
+        ),
+        Align(
+          alignment: Alignment.topLeft,
+          child: Text(
+            'Order Number: $orderNumber',
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              color: HexColor("#155293"),
+              fontFamily: 'Cairo_Bold',
+              fontSize: 15,
+              overflow: TextOverflow.fade,
+            ),
+            maxLines: 2,
+          ),
+        ),
+        Container(
+          child: Container(
+            width: (MediaQuery.of(context).size.width) / 1.5,
+            height: (MediaQuery.of(context).size.height) / 2,
+            child: PaginatedDataTable(
+              showCheckboxColumn: false,
+              showFirstLastButtons: true,
+              sortAscending: _sortAscending,
+              sortColumnIndex: 1,
+              rowsPerPage: 5,
+              columns: [
+                DataColumn(label: Text('Product Name')),
+                DataColumn(label: Text('Price')),
+                DataColumn(label: Text('Size')),
+                DataColumn(label: Text('Quantity')),
+                DataColumn(label: Text('Date')),
+                DataColumn(label: Text('Status')),
+                DataColumn(label: Text('Staff')),
+              ],
+              source: _DataSource(context, widget.newPurchaes!.toList()),
             ),
           ),
         ),
@@ -67,28 +108,36 @@ class _ShopCartDashboard extends State<ShopCartDashboard> {
             maxLines: 2,
           ),
         ),
-        Expanded(
+        Container(
+          alignment: Alignment.topLeft,
           child: Container(
-            width: (MediaQuery.of(context).size.width) / 1.5,
-            height: (MediaQuery.of(context).size.height),
-            child: PaginatedDataTable(
-              showCheckboxColumn: false,
-              showFirstLastButtons: true,
-              sortAscending: _sortAscending,
-              sortColumnIndex: 1,
-              rowsPerPage: 5,
-              columns: [
-                DataColumn(label: Text('Product Name')),
-                DataColumn(label: Text('Price')),
-                DataColumn(label: Text('Size')),
-                DataColumn(label: Text('Quantity')),
-                DataColumn(label: Text('Date')),
-                DataColumn(label: Text('Status')),
-                DataColumn(label: Text('Staff')),
-              ],
-              source: _DataSource(context, widget.newPurchaes!.toList()),
+            width: 500,
+            child: TextField(
+              decoration: InputDecoration(
+                labelText: 'Payment',
+                suffixIcon: Icon(
+                  Icons.search,
+                ),
+              ),
             ),
           ),
+        ),
+        TextButton(
+          style: TextButton.styleFrom(
+            padding: const EdgeInsets.only(
+              top: 18,
+              bottom: 18,
+              left: 50,
+              right: 50,
+            ),
+            primary: Colors.black,
+            textStyle: TextStyle(
+              fontFamily: 'Cairo_SemiBold',
+              fontSize: 20,
+            ),
+          ),
+          child: const Text('CHECKOUT'),
+          onPressed: () {},
         ),
       ],
     );
