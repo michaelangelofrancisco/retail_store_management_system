@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:retail_store_management_system/routes/CreateAccount.dart';
-import 'package:retail_store_management_system/routes/Dashboard.dart';
+import 'package:retail_store_management_system/routes/POS.dart';
 
 //This File Notifies the user if the quantity of the product is not enough
-class NotifyUserName extends StatefulWidget {
+class NotifyUserPayment extends StatefulWidget {
   @override
-  _NotifyUserName createState() => _NotifyUserName();
+  _NotifyUserPayment createState() => _NotifyUserPayment();
 }
 
-class _NotifyUserName extends State<NotifyUserName> {
+class _NotifyUserPayment extends State<NotifyUserPayment> {
   @override
   void initState() {
     super.initState();
@@ -36,7 +36,7 @@ class _NotifyUserName extends State<NotifyUserName> {
           Padding(
             padding: const EdgeInsets.only(top: 20),
             child: Text(
-              'Product Does Not Exist',
+              'Payment Not Enough',
               textAlign: TextAlign.center,
               style: TextStyle(
                 color: HexColor("#155293"),

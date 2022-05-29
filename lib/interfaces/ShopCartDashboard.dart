@@ -1,12 +1,20 @@
+import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'package:retail_store_management_system/interfaces/NotifyUserPayment.dart';
+import 'package:retail_store_management_system/interfaces/NotifyUserSuccess.dart';
 import 'package:retail_store_management_system/models/OrderModel.dart';
+import 'package:retail_store_management_system/models/takeOrderModel.dart';
 import 'package:retail_store_management_system/operations/Collection.dart';
+import 'package:retail_store_management_system/operations/OrderOperation.dart';
 
 class ShopCartDashboard extends StatefulWidget {
   final List<OrderModel>? newPurchaes;
-  const ShopCartDashboard({Key? key, required this.newPurchaes})
+  const ShopCartDashboard(
+      {Key? key, required this.newPurchaes, required this.newTakeOrder})
       : super(key: key);
+
+  final List<takeOrderModel>? newTakeOrder;
 
   @override
   _ShopCartDashboard createState() => _ShopCartDashboard();
@@ -14,9 +22,28 @@ class ShopCartDashboard extends StatefulWidget {
 
 class _ShopCartDashboard extends State<ShopCartDashboard> {
   var _sortAscending = true;
+  var order = OrderOperation();
+  int orderNumber = 0;
+  String state = 'Order';
+  String status = 'WALKIN';
+
+  int randomNumber() {
+    Random random = new Random();
+    var randomNumber = random.nextInt(100);
+
+    return randomNumber;
+  }
 
   @override
   void initState() {
+    order.getOrderNumber().then((value) {
+      setState(() {
+        value++;
+      });
+      orderNumber = value;
+    });
+    //step 2
+
     super.initState();
   }
 
@@ -34,7 +61,7 @@ class _ShopCartDashboard extends State<ShopCartDashboard> {
 //Output all of the added item in cart
   Widget build(BuildContext context) {
     final checkOut = TextEditingController();
-    int orderNumber = 0;
+    final payment = TextEditingController();
 
     return Column(
       children: <Widget>[
@@ -113,6 +140,7 @@ class _ShopCartDashboard extends State<ShopCartDashboard> {
           child: Container(
             width: 500,
             child: TextField(
+              controller: payment,
               decoration: InputDecoration(
                 labelText: 'Payment',
                 suffixIcon: Icon(
@@ -137,7 +165,45 @@ class _ShopCartDashboard extends State<ShopCartDashboard> {
             ),
           ),
           child: const Text('CHECKOUT'),
-          onPressed: () {},
+          onPressed: () {
+            if (getTotalPrice() < int.parse(payment.text)) {
+              //will add the orders to the database
+              order
+                  .sendOrders(Collection.dateToday(), orderNumber, payment.text,
+                      randomNumber().toString(), state, status)
+                  .then((value) => print('ORDER HAS BEEN ADDED'));
+
+              showDialog(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return SimpleDialog(
+                      children: [
+                        Container(
+                          width: 410,
+                          height: 130,
+                          child: NotifyUserSuccess(),
+                        ),
+                      ],
+                    );
+                  });
+
+              return;
+            }
+
+            showDialog(
+                context: context,
+                builder: (BuildContext context) {
+                  return SimpleDialog(
+                    children: [
+                      Container(
+                        width: 410,
+                        height: 130,
+                        child: NotifyUserPayment(),
+                      ),
+                    ],
+                  );
+                });
+          },
         ),
       ],
     );

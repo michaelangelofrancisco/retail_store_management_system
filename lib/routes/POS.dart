@@ -58,7 +58,8 @@ class _POS extends State<POS> {
                         width: (MediaQuery.of(context).size.width),
                         height: (MediaQuery.of(context).size.height),
                         child: ShopCartDashboard(
-                            newPurchaes: Collection.purchases),
+                            newPurchaes: Collection.purchases,
+                            newTakeOrder: Collection.takeOrder),
                       ),
                     ],
                   );

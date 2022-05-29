@@ -27,11 +27,11 @@ class SalesOperation {
     }
   }
 
-  Future<List<DataOrderModel>> getOrderInformation(int orderNumber) async {
+  Future<List<DataOrderModel>> getOrderInformation(int ordernumber) async {
     try {
       final response = await http.get(
         Uri.parse(
-            "http://localhost:8090/api/getInformationForOrderNumber/$orderNumber"),
+            "http://localhost:8090/api/getInformationForOrderNumber/$ordernumber"),
         headers: {
           'Content-Type': 'application/json',
           'Accept': 'application/json'

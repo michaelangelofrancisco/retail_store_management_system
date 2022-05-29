@@ -41,7 +41,7 @@ class Item {
         ),
       );
     }
-    print('POTANGI NA MO' + Collector.getInventory.length.toString());
+    print(Collector.getInventory.length.toString());
     print(items.length);
     return items;
   }

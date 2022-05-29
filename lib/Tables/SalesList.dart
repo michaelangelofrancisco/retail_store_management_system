@@ -42,7 +42,6 @@ class _SalesList extends State<SalesList> {
                       rowsPerPage: 9,
                       columns: [
                         DataColumn(label: Text('Order ID')),
-                        DataColumn(label: Text('Date')),
                         DataColumn(label: Text('Staff')),
                         DataColumn(label: Text('Info')),
                       ],
@@ -62,13 +61,11 @@ class _SalesList extends State<SalesList> {
 class _Row {
   _Row(
     this.valueOrderID,
-    this.valueDate,
     this.valueStaff,
     this.valueInfo,
   );
 
   final String valueOrderID;
-  final String valueDate;
   final String valueStaff;
   final Widget valueInfo;
 
@@ -104,7 +101,6 @@ class _DataSource extends DataTableSource {
       },
       cells: [
         DataCell(Text(row.valueOrderID)),
-        DataCell(Text(row.valueDate)),
         DataCell(Text(row.valueStaff)),
         DataCell((row.valueInfo), onTap: () {
           showDialog(
@@ -144,7 +140,6 @@ List<_Row> _paymentsList(List<SalesModel> salesList) {
       (index) {
         return _Row(
           salesList[index].getOrderID.toString(),
-          salesList[index].getDateOfPurchased.toString(),
           salesList[index].getStaff.toString(),
           TextButton(
             child: const Text('List'),
@@ -157,7 +152,6 @@ List<_Row> _paymentsList(List<SalesModel> salesList) {
     //if borrowers list is empty
     return List.generate(0, (index) {
       return _Row(
-        '',
         '',
         '',
         const Text(''),

@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:intl/intl.dart';
@@ -5,6 +7,7 @@ import 'package:retail_store_management_system/operations/InventoryOperation.dar
 import 'package:retail_store_management_system/operations/NewInventory/InventoryListView.dart';
 import 'package:retail_store_management_system/operations/Picker.dart';
 import 'package:retail_store_management_system/operations/Product.dart';
+import 'package:retail_store_management_system/operations/item.dart';
 
 class Inventory extends StatefulWidget {
   @override
@@ -20,6 +23,8 @@ class _Inventory extends State<Inventory> {
   final description = TextEditingController();
   var inventory = InventoryOperation();
 
+  String state = 'inventory';
+
   var selected = 0;
   final pageController = PageController();
   final product = Product.generateStore();
@@ -27,6 +32,13 @@ class _Inventory extends State<Inventory> {
   String fileName = 'UPLOAD IMAGE';
 
   var pick = Picker();
+
+  int randomNumber() {
+    Random random = new Random();
+    var randomNumber = random.nextInt(100);
+
+    return randomNumber;
+  }
 
   @override
   void initState() {
@@ -103,7 +115,7 @@ class _Inventory extends State<Inventory> {
                       padding: EdgeInsets.only(bottom: 10),
                       child: TextField(
                         controller: productName,
-                        maxLength: 20,
+                        maxLength: 30,
                         decoration: InputDecoration(
                           counterText: '',
                           hintText: 'Product Name:',
@@ -341,7 +353,7 @@ class _Inventory extends State<Inventory> {
                         ),
                       ),
                     ),
-                    Padding(
+                    /*Padding(
                       padding: EdgeInsets.only(top: 3),
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(8),
@@ -375,7 +387,7 @@ class _Inventory extends State<Inventory> {
                           ],
                         ),
                       ),
-                    ),
+                    ),*/
                     Container(
                       width: 380,
                       decoration: BoxDecoration(
@@ -396,13 +408,14 @@ class _Inventory extends State<Inventory> {
                         onPressed: () {
                           inventory
                               .sendInventory(
-                                  productName.text,
-                                  double.parse(price.text),
-                                  size.text,
-                                  int.parse(qty.text),
-                                  dateinput.text,
-                                  description.text,
-                                  pick.getImageBytes())
+                                productName.text,
+                                double.parse(price.text),
+                                size.text,
+                                int.parse(qty.text),
+                                dateinput.text,
+                                description.text,
+                                state,
+                              )
                               .then((value) => {
                                     setState(() {
                                       a.fetchInventory();
@@ -422,23 +435,15 @@ class _Inventory extends State<Inventory> {
               SizedBox(
                 width: 15,
               ),
-              Container(
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(15),
-                ),
-                width: 1000,
-                height: 505,
-                child: Expanded(
-                  child: Container(
-                    width: 1000,
-                    height: 500,
-                    child: InventoryListView(selected, (int index) {
-                      setState(() {
-                        selected = index;
-                      });
-                    }, pageController, product),
-                  ),
+              Expanded(
+                child: Container(
+                  width: 1000,
+                  height: 500,
+                  child: InventoryListView(selected, (int index) {
+                    setState(() {
+                      selected = index;
+                    });
+                  }, pageController, product),
                 ),
               ),
             ],

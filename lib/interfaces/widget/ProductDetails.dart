@@ -22,12 +22,14 @@ class _ProductDetailsState extends State<ProductDetails> {
   @override
   void initState() {
     //step 1
+
+    /*
     order.getOrderNumber().then((value) {
       setState(() {
         value++;
       });
       orderNumber = value;
-    });
+    });*/
     //step 2
     newPurchase = order.getPurchaseList(OrderModel.empty());
     super.initState();

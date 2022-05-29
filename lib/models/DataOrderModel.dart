@@ -4,10 +4,8 @@ class DataOrderModel {
   String? size;
   int? quantity;
   String? status;
-  String? dateOfPurchased;
-  String? staff;
 
-  get getProductName => this.productName;
+  String? get getProductName => this.productName;
 
   set setProductName(String? productName) => this.productName = productName;
 
@@ -25,17 +23,7 @@ class DataOrderModel {
 
   get getStatus => this.status;
 
-  set getStatus(status) => this.status = status;
-
-  get getDateOfPurchased => this.dateOfPurchased;
-
-  set setDateOfPurchased(dateOfPurchased) =>
-      this.dateOfPurchased = dateOfPurchased;
-
-  get getStaff => this.staff;
-
-  set setStaff(staff) => this.staff = staff;
-
+  set setStatus(status) => this.status = status;
   DataOrderModel.empty();
 
   DataOrderModel.tableFull(String productNumber, double price, String size,
@@ -45,18 +33,15 @@ class DataOrderModel {
     this.size = size;
     this.quantity = quantity;
     this.status = status;
-    this.dateOfPurchased = dateOfPurcahased;
-    this.staff = staff;
   }
 
-  DataOrderModel.fullJson(
-      {this.productName,
-      this.price,
-      this.size,
-      this.quantity,
-      this.status,
-      this.dateOfPurchased,
-      this.staff});
+  DataOrderModel.fullJson({
+    this.productName,
+    this.price,
+    this.size,
+    this.quantity,
+    this.status,
+  });
 
   factory DataOrderModel.salesFromJson(Map<String, dynamic> json) {
     return DataOrderModel.fullJson(
@@ -65,8 +50,6 @@ class DataOrderModel {
       size: json['size'] as String,
       quantity: json['quantity'] as int,
       status: json['status'] as String,
-      dateOfPurchased: json['date'] as String,
-      staff: json['staff'] as String,
     );
   }
 }

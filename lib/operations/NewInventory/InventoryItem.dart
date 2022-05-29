@@ -19,7 +19,7 @@ class InventoryItem extends StatelessWidget {
             padding: EdgeInsets.all(5),
             width: 110,
             height: 110,
-            child: Image.asset('images/vape.png', fit: BoxFit.fitHeight),
+            child: Image.asset('images/logo.png', fit: BoxFit.fitHeight),
           ),
           Expanded(
             child: Container(

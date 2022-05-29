@@ -20,11 +20,11 @@ class _OrderHistory extends State<OrderHistory> {
   var details = InventoryOperation();
   late Future<List<OrderHistoryModel>> getDetails;
   late Future<List<DataOrderModel>> _orderHistory;
-  String? name1;
-  String? address1;
-  String? number1;
-  String? payment1;
-  double? price1;
+  String? productName;
+  double? price;
+  String? size;
+  int? quantity;
+  String? status;
 
   @override
   void initState() {
@@ -38,11 +38,11 @@ class _OrderHistory extends State<OrderHistory> {
     //Getting the Details of a customer from database
     getDetails.whenComplete(() {
       setState(() {
-        name1 = customerDetailsName();
-        address1 = customerDetailsAddress();
-        number1 = customerDetailsNumber();
-        payment1 = customerDetailsPayment();
-        price1 = customerDetailsTotalPrice();
+        productName = customerDetailsName();
+        price = customerDetailsPrice();
+        size = customerDetailsSize();
+        quantity = customerDetailsquantity();
+        status = customerDetailsStatus();
       });
     });
   }
@@ -52,61 +52,58 @@ class _OrderHistory extends State<OrderHistory> {
     String name = "";
     Collector.getCustomerDetails
         .where((element) =>
-            element.getOrderNumber == int.parse(widget.id.toString()))
+            element.getProductName == int.parse(widget.id.toString()))
         .forEach((element) {
-      name = "${element.firstname} ${element.lastname}";
+      name = "${element.productName}";
     });
 
     return name;
   }
 
-  String customerDetailsAddress() {
-    String address = "";
+  double customerDetailsPrice() {
+    double price = 0;
     Collector.getCustomerDetails
-        .where((element) =>
-            element.getOrderNumber == int.parse(widget.id.toString()))
+        .where((element) => element.getPrice == int.parse(widget.id.toString()))
         .forEach((element) {
-      address = "${element.address}";
+      price = double.parse(element.getPrice);
     });
 
-    return address;
+    return price;
   }
 
-  String customerDetailsNumber() {
-    String number = "";
+  String customerDetailsSize() {
+    String size = "";
     Collector.getCustomerDetails
-        .where((element) =>
-            element.getOrderNumber == int.parse(widget.id.toString()))
+        .where((element) => element.getSize == int.parse(widget.id.toString()))
         .forEach((element) {
-      number = "${element.number}";
+      size = "${element.getSize}";
     });
 
-    return number;
+    return size;
   }
 
-  String customerDetailsPayment() {
-    String payment = "";
+  int customerDetailsquantity() {
+    int payment = 0;
     Collector.getCustomerDetails
-        .where((element) =>
-            element.getOrderNumber == int.parse(widget.id.toString()))
+        .where(
+            (element) => element.getQuantity == int.parse(widget.id.toString()))
         .forEach((element) {
-      payment = "${element.payment}";
+      payment = int.parse(element.getQuantity);
     });
 
     return payment;
   }
 
-  double customerDetailsTotalPrice() {
-    double temp = 0;
-    String price = "";
+  String customerDetailsStatus() {
+    String status = "";
     Collector.getCustomerDetails
-        .where((element) =>
-            element.getOrderNumber == int.parse(widget.id.toString()))
+        .where(
+            (element) => element.getStatus == int.parse(widget.id.toString()))
         .forEach((element) {
-      temp += element.price!.toDouble();
+      status = "${element.getStatus}";
     });
 
-    return temp;
+    return status;
   }
 
   @override
@@ -138,7 +135,7 @@ class _OrderHistory extends State<OrderHistory> {
             child: Padding(
               padding: const EdgeInsets.only(top: 20),
               child: Text(
-                'Customer Name: $name1',
+                'Customer Name: ',
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   color: HexColor("#155293"),
@@ -155,7 +152,7 @@ class _OrderHistory extends State<OrderHistory> {
             child: Padding(
               padding: const EdgeInsets.only(top: 20),
               child: Text(
-                'Address: $address1',
+                'Address: ',
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   color: HexColor("#155293"),
@@ -172,7 +169,7 @@ class _OrderHistory extends State<OrderHistory> {
             child: Padding(
               padding: const EdgeInsets.only(top: 20),
               child: Text(
-                'Contact Number: $number1',
+                'Contact Number: ',
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   color: HexColor("#155293"),
@@ -189,7 +186,7 @@ class _OrderHistory extends State<OrderHistory> {
             child: Padding(
               padding: const EdgeInsets.only(top: 20),
               child: Text(
-                'Payment: $payment1',
+                'Payment: ',
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   color: HexColor("#155293"),
@@ -206,7 +203,7 @@ class _OrderHistory extends State<OrderHistory> {
             child: Padding(
               padding: const EdgeInsets.only(top: 20),
               child: Text(
-                'Total Price: $price1',
+                'Total Price: ',
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   color: HexColor("#155293"),
@@ -249,10 +246,8 @@ class _OrderHistory extends State<OrderHistory> {
                         DataColumn(label: Text('Product Name')),
                         DataColumn(label: Text('Price')),
                         DataColumn(label: Text('Size')),
-                        DataColumn(label: Text('Quantity')),
+                        DataColumn(label: Text('quantity')),
                         DataColumn(label: Text('Status')),
-                        DataColumn(label: Text('Date')),
-                        DataColumn(label: Text('Staff')),
                       ],
                       source: _DataSource(context, snapshot.data!.toList()),
                     ),
@@ -296,8 +291,6 @@ class _Row {
     this.size,
     this.quantity,
     this.status,
-    this.date,
-    this.staff,
   );
 
   final String productName;
@@ -305,8 +298,6 @@ class _Row {
   final String size;
   final String quantity;
   final String status;
-  final String date;
-  final String staff;
 
   bool selected = false;
 }
@@ -337,8 +328,6 @@ class _DataSource extends DataTableSource {
         DataCell(Text(row.size)),
         DataCell(Text(row.quantity)),
         DataCell(Text(row.status)),
-        DataCell(Text(row.date)),
-        DataCell(Text(row.staff)),
       ],
     );
   }
@@ -363,8 +352,6 @@ class _DataSource extends DataTableSource {
             orderHistory[index].getSize.toString(),
             orderHistory[index].getQuantity.toString(),
             orderHistory[index].getStatus.toString(),
-            orderHistory[index].getDateOfPurchased.toString(),
-            orderHistory[index].getStaff.toString(),
           );
         },
       );
@@ -373,8 +360,6 @@ class _DataSource extends DataTableSource {
         0,
         (index) {
           return _Row(
-            '',
-            '',
             '',
             '',
             '',

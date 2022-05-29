@@ -1,73 +1,65 @@
 class OrderHistoryModel {
   //Getting the Data details of costumer from database to Sale History every order number
 
-  int? orderNumber;
-  String? firstname;
-  String? lastname;
-  String? address;
-  int? number;
-  double? payment;
+  int? productDetailsNumber;
+  String? productName;
   double? price;
-  int? get getOrderNumber => this.orderNumber;
+  String? size;
+  int? quantity;
+  String? status;
+  int? get getProductDetailsNumber => this.productDetailsNumber;
 
-  set setOrderNumber(int? orderNumber) => this.orderNumber = orderNumber;
+  set setProductDetailsNumber(int? productDetailsNumber) =>
+      this.productDetailsNumber = productDetailsNumber;
 
-  get getFirstname => this.firstname;
+  get getProductName => this.productName;
 
-  set setFirstname(firstname) => this.firstname = firstname;
-
-  get getLastname => this.lastname;
-
-  set setLastname(lastname) => this.lastname = lastname;
-
-  get getAddress => this.address;
-
-  set setAddress(address) => this.address = address;
-
-  get getNumber => this.number;
-
-  set setNumber(number) => this.number = number;
-
-  get getPayment => this.payment;
-
-  set setPayment(payment) => this.payment = payment;
+  set setProductName(productName) => this.productName = productName;
 
   get getPrice => this.price;
 
   set setPrice(price) => this.price = price;
 
+  get getSize => this.size;
+
+  set setSize(size) => this.size = size;
+
+  get getQuantity => this.quantity;
+
+  set setQuantity(quantity) => this.quantity = quantity;
+
+  get getStatus => this.status;
+
+  set setStatus(status) => this.status = status;
+
   OrderHistoryModel.empty();
 
-  OrderHistoryModel.inventory(int id, String firstname, String lastname,
-      String address, int number, double payment, double price) {
-    this.orderNumber = id;
-    this.firstname = firstname;
-    this.lastname = lastname;
-    this.address = address;
-    this.number = number;
-    this.payment = payment;
+  OrderHistoryModel.inventory(int productDetailsNumber, String productName,
+      double price, String size, int quantity, String status) {
+    this.productDetailsNumber = productDetailsNumber;
+    this.productName = productName;
     this.price = price;
+    this.size = size;
+    this.quantity = quantity;
+    this.status = status;
   }
 
-  OrderHistoryModel.fullJson({
-    this.orderNumber,
-    this.firstname,
-    this.lastname,
-    this.address,
-    this.number,
-    this.payment,
-    this.price,
-  });
+  OrderHistoryModel.fullJson(
+      {this.productDetailsNumber,
+      this.productName,
+      this.price,
+      this.size,
+      this.quantity,
+      this.status});
 
   factory OrderHistoryModel.inventoryFromJson(Map<String, dynamic> json) {
     return OrderHistoryModel.fullJson(
-      orderNumber: json["OrderNumber"] as int,
-      firstname: json['firstname'] as String,
-      lastname: json['lastname'] as String,
-      address: json['address'] as String,
-      number: json['number'] as int,
-      payment: json['payment'] as double,
+      productDetailsNumber: json["productDetailsNumber"] as int,
+      productName: json['productName'] as String,
       price: json['price'] as double,
+      size: json['size'] as String,
+      quantity: json['quantity'] as int,
+      status: json['status'] as String,
     );
   }
 }

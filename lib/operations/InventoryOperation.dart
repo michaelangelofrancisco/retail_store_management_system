@@ -3,13 +3,12 @@ import 'dart:io';
 import 'package:http/http.dart' as http;
 import 'package:retail_store_management_system/models/CheckingProductModel.dart';
 import 'package:retail_store_management_system/models/OrderHistoryModel.dart';
-import 'package:retail_store_management_system/operations/Collection.dart';
 import '../models/InventoryModel.dart';
 import 'Collector.dart';
 
 class InventoryOperation {
   Future<bool> sendInventory(String productName, double price, String size,
-      int qty, String dateOfPurchase, String description, var img) async {
+      int qty, String dateOfPurchase, String description, String state) async {
     try {
       final response = await http.post(
         Uri.parse("http://localhost:8090/api/inventory"),
@@ -24,7 +23,8 @@ class InventoryOperation {
           'quantity': qty,
           'date': dateOfPurchase,
           'description': description,
-          'productImage': img
+          //'productImage': img,
+          'state': state,
         }),
       );
 
@@ -32,39 +32,6 @@ class InventoryOperation {
     } catch (e) {
       print(e.toString());
       return false;
-    }
-
-    return true;
-  }
-
-  Future<bool> sendToIncomingProducts(
-      String orderSlipId, String supplierName) async {
-    final status = "NOT RECEIVED";
-    var response;
-    for (var item in Collection.purchases) {
-      try {
-        var payload = json.encode({
-          "purchaseOrdeSlip": orderSlipId,
-          "supplierName": supplierName,
-          "productCode": item.productCode,
-          "qty": item.qty,
-          "purchasedDate": item.datePurchase,
-          "status": status,
-        });
-        await Environment.methodPost(
-                "http://localhost:8090/api/addpurchase", payload)
-            .then((value) {
-          response = value;
-        });
-      } catch (e) {
-        e.toString();
-        BannerNotif.notif(
-          'Error',
-          'Something went wrong while adding the loan',
-          Colors.red.shade600,
-        );
-        return false;
-      }
     }
 
     return true;
@@ -90,7 +57,7 @@ class InventoryOperation {
         .map<InventoryModel>((json) => InventoryModel.inventoryFromJson(json))
         .toList();
 
-    print('POTANG INA ' + Collector.getInventory.length.toString());
+    print("asd" + Collector.getInventory.length.toString());
 
     // Use the compute function to run parseAdmin in a separate isolate.
     return Collector.getInventory;

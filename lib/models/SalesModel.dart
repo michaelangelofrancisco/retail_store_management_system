@@ -1,35 +1,26 @@
 class SalesModel {
   int? orderID;
-  String? dateOfPurchased;
   String? staff;
+  get getOrderID => this.orderID;
 
-  get getStaff => staff;
+  set setOrderID(orderID) => this.orderID = orderID;
 
-  set setStaff(String? staff) => this.staff = staff;
+  get getStaff => this.staff;
 
-  get getOrderID => orderID;
-
-  set setOrderID(int orderID) => this.orderID = orderID;
-
-  get getDateOfPurchased => dateOfPurchased;
-
-  set setDateOfPurchased(dateOfPurchased) =>
-      this.dateOfPurchased = dateOfPurchased;
+  set setStaff(staff) => this.staff = staff;
 
   SalesModel.empty();
 
-  SalesModel.tableFull(int orderID, String dateOfPurcahased, String stuff) {
+  SalesModel.tableFull(int orderID, String stuff) {
     this.orderID = orderID;
-    this.dateOfPurchased = dateOfPurcahased;
     this.staff = staff;
   }
 
-  SalesModel.fullJson({this.orderID, this.dateOfPurchased, this.staff});
+  SalesModel.fullJson({this.orderID, this.staff});
 
   factory SalesModel.salesFromJson(Map<String, dynamic> json) {
     return SalesModel.fullJson(
-      orderID: json['OrderNumber'] as int,
-      dateOfPurchased: json['date'] as String,
+      orderID: json['orderNumber'] as int,
       staff: json['staff'] as String,
     );
   }

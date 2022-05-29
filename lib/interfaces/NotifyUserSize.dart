@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:retail_store_management_system/routes/CreateAccount.dart';
-import 'package:retail_store_management_system/routes/Dashboard.dart';
+import 'package:retail_store_management_system/routes/POS.dart';
 
 //This File Notifies the user if the quantity of the product is not enough
 class NotifyUserSize extends StatefulWidget {
